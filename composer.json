@@ -1,0 +1,21 @@
+{
+    "name": "raytechhosting/wpabstractclasses",
+    "description": "This package provides the OOP abstract wrapper PHP classes for using in wordpress to help speed development.",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "autoload": {
+        "psr-4": {
+            "RaytechHosting\\WPAbstractClasses\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kevin Roy",
+            "email": "royk@myraytech.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4"
+    }
+}
