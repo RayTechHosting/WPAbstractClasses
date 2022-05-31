@@ -59,7 +59,13 @@ class Select extends AbstractInput {
 		echo '<select id="' . esc_attr( $this->getInputId() ) . '" name="' . esc_attr( $this->getName() ) . '"';
 		if ( ! empty( $this->getAttributes() ) ) {
 			foreach ( $this->getAttributes() as $attr => $attr_value ) {
-				echo ' ' . esc_html( $attr ) . '="' . esc_attr( $attr_value ) . '"';
+				if ( 'options' === $attr ) {
+					continue;
+				} elseif ( 'multiple' === $attr && true === $attr_value ) {
+					echo ' multiple';
+				} else {
+					echo ' ' . esc_html( $attr ) . '="' . esc_attr( $attr_value ) . '"';
+				}
 			}
 		}
 		echo '>';
