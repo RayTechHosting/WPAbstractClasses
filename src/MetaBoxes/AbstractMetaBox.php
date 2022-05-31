@@ -120,7 +120,7 @@ abstract class AbstractMetaBox {
 			echo '<p>
 				<label for="' . esc_attr( $this->post_type_class . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
-			$namespace = '\\RayTech\\BasicStarter\\MetaBoxes\\Fields\\Inputs';
+			$namespace = '\\RayTech\\WPAbstractClasses\\MetaBoxes\\Fields\\Inputs';
 			$classes   = [
 				'checkbox' => 'Checkbox',
 				'color'    => 'Color',
