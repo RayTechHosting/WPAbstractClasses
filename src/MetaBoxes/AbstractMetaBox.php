@@ -25,7 +25,7 @@
  * @since      0.1.0
  */
 
-namespace RayTech\WPAbstractClassesMetaBoxes;
+namespace RayTech\WPAbstractClasses\MetaBoxes;
 
 /**
  * Metabox Abstract class

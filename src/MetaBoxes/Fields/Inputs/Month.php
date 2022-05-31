@@ -27,7 +27,7 @@
 
 namespace RayTech\WPAbstractClasses\MetaBoxes\Fields\Inputs;
 
-use RayTech\WPAbstractClassesMetaBoxes\Fields\AbstractInput;
+use RayTech\WPAbstractClasses\MetaBoxes\Fields\AbstractInput;
 
 /**
  * Month input
