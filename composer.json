@@ -3,6 +3,7 @@
     "description": "This package provides the OOP abstract wrapper PHP classes for using in wordpress to help speed development.",
     "type": "library",
     "license": "GPL-3.0-only",
+    "version": "0.1.6",
     "autoload": {
         "psr-4": {
             "RayTech\\WPAbstractClasses\\": "src/"
@@ -16,6 +17,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "wordpress": ">=5.9"
     }
 }

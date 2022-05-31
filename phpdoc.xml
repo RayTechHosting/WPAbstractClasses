@@ -17,6 +17,7 @@
             <ignore hidden="true">
                 <path>vendor</path>
                 <path>tests</path>
+                <path>examples</path>
             </ignore>
         </api>
     </version>
