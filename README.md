@@ -18,10 +18,10 @@ Here is a list of the data types:
 
 | Data Type   | Abstract class                                        |
 |-------------|-------------------------------------------------------|
-| Post Type   | RayTech\WPAbstractClasses\PostType\AbstractPostType   |
-| Permalink   | RayTech\WPAbstractClasses\Permalink\AbstractPermalink |
-| Taxonomy    | RayTech\WPAbstractClasses\Taxonomy\AbstractTaxonomy   |
-| Meta Box    | RayTech\WPAbstractClasses\MetaBox\AbstractMetaBox     |
+| Post Type   | RayTech\WPAbstractClasses\PostTypes\AbstractPostType   |
+| Permalink   | RayTech\WPAbstractClasses\Permalinks\AbstractPermalink |
+| Taxonomy    | RayTech\WPAbstractClasses\Taxonomies\AbstractTaxonomy   |
+| Meta Box    | RayTech\WPAbstractClasses\MetaBoxes\AbstractMetaBox     |
 
 ### Examples
 
