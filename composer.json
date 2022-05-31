@@ -5,7 +5,7 @@
     "license": "GPL-3.0-only",
     "autoload": {
         "psr-4": {
-            "RaytechHosting\\WPAbstractClasses\\": "src/"
+            "RayTech\\WPAbstractClasses\\": "src/"
         }
     },
     "authors": [
