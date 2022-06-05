@@ -21,18 +21,18 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.2.0
  * @since      0.1.0
  */
 
-namespace RayTech\WPAbstractClasses\MetaBoxes\Fields\Inputs;
+namespace RayTech\WPAbstractClasses\Fields\Inputs;
 
-use RayTech\WPAbstractClasses\MetaBoxes\Fields\AbstractInput;
+use RayTech\WPAbstractClasses\Fields\AbstractInput;
 
 /**
- * Checkbox input class
+ * TextArea input
  */
-class Checkbox extends AbstractInput {
+class TextArea extends AbstractInput {
 	/**
 	 * __construct
 	 *
@@ -43,11 +43,26 @@ class Checkbox extends AbstractInput {
 	 * @param  array  $attr  Rest of input attributes.
 	 * @return void
 	 */
-	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'checkbox' );
-		$this->setName( $name );
+	public function __construct( $id = null, $name = null, $value = null, $attr = [] ) {
 		$this->setInputID( $id );
+		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setAttributes( $attr );
+	}
+
+	/**
+	 * Rendering method
+	 *
+	 * @return void
+	 */
+	public function render() {
+		echo '<textarea name="' . esc_attr( $this->getName() ) . '" 
+        id="' . esc_attr( $this->getInputId() ) . '"';
+		if ( ! empty( $this->getAttributes() ) ) {
+			foreach ( $this->getAttributes() as $attr => $attr_value ) {
+				echo ' ' . esc_html( $attr ) . '="' . esc_attr( $attr_value ) . '"';
+			}
+		}
+		echo '>' . esc_textarea( $this->getValue() ) . '</textarea>';
 	}
 }

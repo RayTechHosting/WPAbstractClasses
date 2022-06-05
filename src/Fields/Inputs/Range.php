@@ -21,18 +21,18 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.2.0
  * @since      0.1.0
  */
 
-namespace RayTech\WPAbstractClasses\MetaBoxes\Fields\Inputs;
+namespace RayTech\WPAbstractClasses\Fields\Inputs;
 
-use RayTech\WPAbstractClasses\MetaBoxes\Fields\AbstractInput;
+use RayTech\WPAbstractClasses\Fields\AbstractInput;
 
 /**
- * Select input
+ * Range input
  */
-class Select extends AbstractInput {
+class Range extends AbstractInput {
 	/**
 	 * __construct
 	 *
@@ -44,39 +44,10 @@ class Select extends AbstractInput {
 	 * @return void
 	 */
 	public function __construct( $id, $name, $value, $attr ) {
+		$this->setType( 'range' );
 		$this->setName( $name );
 		$this->setInputID( $id );
 		$this->setValue( $value );
 		$this->setAttributes( $attr );
-	}
-
-	/**
-	 * Rendering method.
-	 *
-	 * @return void
-	 */
-	public function render() {
-		echo '<select id="' . esc_attr( $this->getInputId() ) . '" name="' . esc_attr( $this->getName() ) . '"';
-		if ( ! empty( $this->getAttributes() ) ) {
-			foreach ( $this->getAttributes() as $attr => $attr_value ) {
-				if ( 'options' === $attr ) {
-					continue;
-				} elseif ( 'multiple' === $attr && true === $attr_value ) {
-					echo ' multiple';
-				} else {
-					echo ' ' . esc_html( $attr ) . '="' . esc_attr( $attr_value ) . '"';
-				}
-			}
-		}
-		echo '>';
-
-		foreach ( $this->getAttributes()['options'] as $option => $label ) {
-			echo '<option value="' . esc_attr( $option ) . '"';
-			if ( $this->getValue() === $option ) {
-				echo ' selected';
-			}
-			echo '>' . esc_html( $label ) . '</option>';
-		}
-		echo '</select>';
 	}
 }
