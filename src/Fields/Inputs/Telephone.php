@@ -21,18 +21,18 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.2.0
  * @since      0.1.0
  */
 
-namespace RayTech\WPAbstractClasses\MetaBoxes\Fields\Inputs;
+namespace RayTech\WPAbstractClasses\Fields\Inputs;
 
-use RayTech\WPAbstractClasses\MetaBoxes\Fields\AbstractInput;
+use RayTech\WPAbstractClasses\Fields\AbstractInput;
 
 /**
- * Color input
+ * Telephone input
  */
-class Color extends AbstractInput {
+class Telephone extends AbstractInput {
 	/**
 	 * __construct
 	 *
@@ -44,7 +44,7 @@ class Color extends AbstractInput {
 	 * @return void
 	 */
 	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'color' );
+		$this->setType( 'tel' );
 		$this->setName( $name );
 		$this->setInputID( $id );
 		$this->setValue( $value );

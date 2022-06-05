@@ -21,7 +21,7 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.2.0
  * @since      0.1.0
  */
 
@@ -120,7 +120,7 @@ abstract class AbstractMetaBox {
 			echo '<p>
 				<label for="' . esc_attr( $this->post_type_class . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
-			$namespace = '\\RayTech\\WPAbstractClasses\\MetaBoxes\\Fields\\Inputs';
+			$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
 			$classes   = [
 				'checkbox' => 'Checkbox',
 				'color'    => 'Color',

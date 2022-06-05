@@ -14,14 +14,23 @@ Install using composer is the method supported by this package.
 
 All you need to do to use these classes is to have composer autoload the classes and then reference them using a use statement and after that you can extend the abstract classes for different type of data.
 
-Here is a list of the data types:
+Here is a list of the data types that have Abstract Classes:
 
-| Data Type   | Abstract class                                        |
-|-------------|-------------------------------------------------------|
-| Post Type   | RayTech\WPAbstractClasses\PostTypes\AbstractPostType   |
-| Permalink   | RayTech\WPAbstractClasses\Permalinks\AbstractPermalink |
-| Taxonomy    | RayTech\WPAbstractClasses\Taxonomies\AbstractTaxonomy   |
-| Meta Box    | RayTech\WPAbstractClasses\MetaBoxes\AbstractMetaBox     |
+| Data Type  | Abstract class                                         |
+|------------|--------------------------------------------------------|
+| Post Type  | RayTech\WPAbstractClasses\PostTypes\AbstractPostType   |
+| Permalink  | RayTech\WPAbstractClasses\Permalinks\AbstractPermalink |
+| Taxonomy   | RayTech\WPAbstractClasses\Taxonomies\AbstractTaxonomy  |
+| Meta Box   | RayTech\WPAbstractClasses\MetaBoxes\AbstractMetaBox    |
+| Admin page | RayTech\WPAbstractClasses\Administration\AbstractPage  |
+
+Here is a list of the data types that have Wrapper Classes:
+
+| Data Type       | Wrapper Classes                                     |
+|-----------------|-----------------------------------------------------|
+| Settings API    | RayTech\WPAbstractClasses\Administration\Setting    |
+| Options API     | RayTech\WPAbstractClasses\Administration\Option     |
+| Site Option API | RayTech\WPAbstractClasses\Administration\SiteOption |
 
 ### Examples
 
