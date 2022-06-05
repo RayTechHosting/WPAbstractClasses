@@ -31,6 +31,25 @@ namespace RayTech\WPAbstractClasses\Administration;
  * Wrapper class for WordPress options
  */
 abstract class AbstractPage {
+	/**
+	 * Parent slugs for submenu pages
+	 *
+	 * @var array $slugs
+	 */
+	protected $slugs = [
+		'dashboard'  => 'index.php',
+		'posts'      => 'edit.php',
+		'media'      => 'upload.php',
+		'pages'      => 'edit.php?post_type=page',
+		'comments'   => 'edit-comments.php',
+		'appearance' => 'themes.php',
+		'plugins'    => 'plugins.php',
+		'users'      => 'users.php',
+		'tools'      => 'tools.php',
+		'settings'   => 'options-general.php',
+		'network'    => 'settings.php',
+		'custom'     => 'edit.php?post_type=',
+	];
 
 	/**
 	 * Constructor method
@@ -47,12 +66,11 @@ abstract class AbstractPage {
 	 * @return void
 	 */
 	public function addPages() {
-		foreach ( $this->getConfig() as $page ) {
-			if ( 'top' === $page['parent'] ) {
-				add_menu_page( $page['page_title'], $page['menu_title'], $page['capability'], $page['callable'], $page['icon'], $page['position'] );
-			} else {
-				add_submenu_page( $this->createParentSlug( $page['parent'] ), $page['page_name'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['position'] );
-			}
+		$page = $this->getConfig();
+		if ( 'top' === $page['parent'] ) {
+			add_menu_page( $page['page_title'], $page['menu_title'], $page['capability'], $page['callable'], $page['icon'], $page['position'] );
+		} else {
+			add_submenu_page( $this->createParentSlug( $page['parent'] ), $page['page_name'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['position'] );
 		}
 	}
 
@@ -63,18 +81,17 @@ abstract class AbstractPage {
 	 */
 	protected function getConfig() {
 		return [
-			[
-				'parent'     => 'dashboard',
-				'page_name'  => 'Test',
-				'menu_title' => 'Test',
-				'capability' => 'manage_options',
-				'menu_slug'  => 'test_dash',
-				'position'   => 10,
-				'fields'     => [
-					'test_input' => [
-						'label' => __( 'Test text', 'basicstarter' ),
-						'type'  => 'text',
-					],
+			'parent'     => 'custom',
+			'post_type'  => 'test',
+			'page_name'  => 'Test',
+			'menu_title' => 'Test',
+			'capability' => 'manage_options',
+			'menu_slug'  => 'test_dash',
+			'position'   => 10,
+			'fields'     => [
+				'test_input' => [
+					'label' => __( 'Test text', 'basicstarter' ),
+					'type'  => 'text',
 				],
 			],
 		];
@@ -83,54 +100,22 @@ abstract class AbstractPage {
 	/**
 	 * Method to create parent slug parameter.
 	 *
-	 * @param string $parent Parent slug config choice.
+	 * @param string $parent    Parent slug config choice.
+	 * @param string $post_type Post type required when using custom slug.
 	 * @return void
 	 */
-	protected function createParentSlug( $parent ) {
+	protected function createParentSlug( $parent, $post_type = '' ) {
 		/**
 		 * Parent slug to return.
 		 *
 		 * @var string $slug
 		 */
-		$slug = '';
-		switch ( $parent ) {
-			case 'dashboard':
-				$slug = 'index.php';
-				break;
-			case 'posts':
-				$slug = 'edit.php';
-				break;
-			case 'media':
-				$slug = 'upload.php';
-				break;
-			case 'pages':
-				$slug = 'edit.php?post_type=page';
-				break;
-			case 'comments':
-				$slug = 'edit-comments.php';
-				break;
-			case 'appearance':
-				$slug = 'themes.php';
-				break;
-			case 'plugins':
-				$slug = 'plugins.php';
-				break;
-			case 'users':
-				$slug = 'users.php';
-				break;
-			case 'tools':
-				$slug = 'tools.php';
-				break;
-			case 'settings':
-				$slug = 'options-general.php';
-				break;
-			case 'network':
-				$slug = 'settings.php';
-				break;
-			case 'custom':
-			default:
-				$slug = 'edit.php?post_type=' . $parent;
+		$slug = $this->slugs[ $parent ];
+
+		if ( 'custom' === $parent ) {
+			$slug .= $post_type;
 		}
+
 	}
 
 	/**
