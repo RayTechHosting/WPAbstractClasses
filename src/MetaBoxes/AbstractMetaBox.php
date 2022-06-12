@@ -27,6 +27,8 @@
 
 namespace RayTech\WPAbstractClasses\MetaBoxes;
 
+use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
+
 /**
  * Metabox Abstract class
  *
@@ -145,7 +147,7 @@ abstract class AbstractMetaBox {
 			];
 			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];
-			$input     = new $fqcn( esc_attr( $this->post_type_class . $meta_key ), esc_attr( $this->post_type_class . $meta_key ), esc_attr( get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ) ), $attr );
+			$input     = new $fqcn( $this->post_type_class . $meta_key, $this->post_type_class . $meta_key, get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ), $attr );
 			$input->render();
 
 			echo '</p>';
@@ -185,10 +187,12 @@ abstract class AbstractMetaBox {
 		}
 
 		foreach ( $values as $meta_key ) {
-
-			/* Get the posted data and sanitize it for use as an HTML class. */
-			$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
-
+			if ( ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
+				/* Get the posted data and sanitize it for use as an HTML class. */
+				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
+			} else {
+				$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
+			}
 			/* Get the meta value of the custom field key. */
 			$meta_value = get_post_meta( $post_id, $this->post_type_class . $meta_key, true );
 
@@ -197,13 +201,9 @@ abstract class AbstractMetaBox {
 				add_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value, true );
 			} elseif ( $new_meta_value && $new_meta_value !== $meta_value ) { // If the new meta value does not match the old value, update it.
 				update_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value );
+			} elseif ( '' === $new_meta_value && $meta_value ) { // If there is no new meta value but an old value exists, delete it.
+				delete_post_meta( $post_id, $meta_key, $meta_value );
 			}
-
-			/*
-			* If there is no new meta value but an old value exists, delete it.
-			*/
-			// elseif ('' == $new_meta_value && $meta_value)
-			// delete_post_meta($post_id, $meta_key, $meta_value);.
 		}
 	}
 }
