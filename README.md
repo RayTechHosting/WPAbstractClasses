@@ -34,9 +34,9 @@ Here is a list of the data types that have Wrapper Classes:
 
 Also some utilities:
 
-| Utility | Class                                       |
-|---------|---------------------------------------------|
-| Encoder | RayTech\WPAbstractClasses\Utilities\Encoder |
+| Utility      | Class                                           |
+|--------------|-------------------------------------------------|
+| Json Encoder | RayTech\WPAbstractClasses\Utilities\JsonEncoder |
 
 ### Examples
 
