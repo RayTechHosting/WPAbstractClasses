@@ -32,6 +32,12 @@ Here is a list of the data types that have Wrapper Classes:
 | Options API     | RayTech\WPAbstractClasses\Administration\Option     |
 | Site Option API | RayTech\WPAbstractClasses\Administration\SiteOption |
 
+Also some utilities:
+
+| Utility | Class                                       |
+|---------|---------------------------------------------|
+| Encoder | RayTech\WPAbstractClasses\Utilities\Encoder |
+
 ### Examples
 
 You can refer to the examples folder for more details.
