@@ -21,33 +21,38 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.2.0
- * @since      0.1.0
+ * @version    0.3.0
+ * @since      0.3.0
  */
 
-namespace RayTech\WPAbstractClasses\Fields\Inputs;
-
-use RayTech\WPAbstractClasses\Fields\AbstractInput;
+namespace RayTech\WPAbstractClasses\Utilities;
 
 /**
- * DateTime input
+ * Encoder class to help save data into the database as json object or arrays.
  */
-class DateTime extends AbstractInput {
+class JsonEncoder {
+
 	/**
-	 * __construct
+	 * Decoding function for this json encoding
 	 *
-	 * @access public
-	 * @param  int    $id    Input id.
-	 * @param  string $name  Input name.
-	 * @param  string $value Input value.
-	 * @param  array  $attr  Rest of input attributes.
-	 * @return void
+	 * @static
+	 * @param string  $data Json string of data.
+	 * @param boolean $as_array Switch between array or object.
+	 * @return mixed
 	 */
-	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'datetime-local' );
-		$this->setName( $name );
-		$this->setInputID( $id );
-		$this->setValue( $value );
-		$this->setAttributes( $attr );
+	public static function decode( $data, bool $as_array = false ) {
+		return json_decode( stripslashes( stripslashes( $data ) ), $as_array );
 	}
+
+	/**
+	 * Encoding function for json in db
+	 *
+	 * @static
+	 * @param array|object $data Array or object of data.
+	 * @return mixed
+	 */
+	public static function encode( $data ) {
+		return addslashes( wp_json_encode( $data, JSON_UNESCAPED_UNICODE ) );
+	}
+
 }

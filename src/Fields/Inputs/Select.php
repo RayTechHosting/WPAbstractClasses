@@ -21,13 +21,14 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.2.0
+ * @version    0.3.0
  * @since      0.1.0
  */
 
 namespace RayTech\WPAbstractClasses\Fields\Inputs;
 
 use RayTech\WPAbstractClasses\Fields\AbstractInput;
+use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 
 /**
  * Select input
@@ -39,12 +40,16 @@ class Select extends AbstractInput {
 	 * @access public
 	 * @param  int    $id    Input id.
 	 * @param  string $name  Input name.
-	 * @param  string $value Input value.
+	 * @param  mixed  $value Input value.
 	 * @param  array  $attr  Rest of input attributes.
 	 * @return void
 	 */
 	public function __construct( $id, $name, $value, $attr ) {
-		$this->setName( $name );
+		if ( true === $attr['multiple'] ) {
+			$this->setName( $name . '[]' );
+		} else {
+			$this->setName( $name );
+		}
 		$this->setInputID( $id );
 		$this->setValue( $value );
 		$this->setAttributes( $attr );
@@ -56,6 +61,11 @@ class Select extends AbstractInput {
 	 * @return void
 	 */
 	public function render() {
+		if ( null !== JsonEncoder::decode( $this->getValue(), true ) ) {
+			$value = JsonEncoder::decode( $this->getValue(), true );
+		} else {
+			$value = $this->getValue();
+		}
 		echo '<select id="' . esc_attr( $this->getInputId() ) . '" name="' . esc_attr( $this->getName() ) . '"';
 		if ( ! empty( $this->getAttributes() ) ) {
 			foreach ( $this->getAttributes() as $attr => $attr_value ) {
@@ -72,7 +82,11 @@ class Select extends AbstractInput {
 
 		foreach ( $this->getAttributes()['options'] as $option => $label ) {
 			echo '<option value="' . esc_attr( $option ) . '"';
-			if ( $this->getValue() === $option ) {
+			if ( is_array( $value ) ) {
+				if ( in_array( $option, $value, true ) ) {
+					echo ' selected';
+				}
+			} elseif ( $value === $option ) {
 				echo ' selected';
 			}
 			echo '>' . esc_html( $label ) . '</option>';
