@@ -44,7 +44,7 @@ class DateTime extends AbstractInput {
 	 * @return void
 	 */
 	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'date' );
+		$this->setType( 'datetime-local' );
 		$this->setName( $name );
 		$this->setInputID( $id );
 		$this->setValue( $value );
