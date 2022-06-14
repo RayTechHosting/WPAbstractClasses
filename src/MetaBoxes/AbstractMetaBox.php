@@ -178,7 +178,7 @@ abstract class AbstractMetaBox {
 		if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) ) {
 			return $post_id;
 		}
-		
+
 		$config = $this->getConfig();
 		$values = array_keys($config);
 
