@@ -10,6 +10,10 @@ Install using composer is the method supported by this package.
   composer require raytechhosting/wpabstractclasses
 ```
 
+## Documentation
+
+You can view the code documentation within the docs folder.
+
 ## Usage
 
 All you need to do to use these classes is to have composer autoload the classes and then reference them using a use statement and after that you can extend the abstract classes for different type of data.

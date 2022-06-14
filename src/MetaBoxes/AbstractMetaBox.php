@@ -21,7 +21,7 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.2.0
+ * @version    0.3.2
  * @since      0.1.0
  */
 
@@ -178,13 +178,9 @@ abstract class AbstractMetaBox {
 		if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) ) {
 			return $post_id;
 		}
-		$values = [];
+
 		$config = $this->getConfig();
-		foreach ( $config as $box ) {
-			foreach ( $box as $field => $options ) {
-				array_push( $values, $field );
-			}
-		}
+		$values = array_keys($config);
 
 		foreach ( $values as $meta_key ) {
 			if ( ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
