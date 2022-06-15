@@ -50,7 +50,7 @@ abstract class AbstractPermalink {
 	 */
 	public function __construct() {
 		$this->post_type_name = $this->getPostType();
-		add_action( 'load-options-permalink .php', [$this, 'loadPermalinks'] );
+		add_action( 'load-options-permalink.php', [$this, 'loadPermalinks'] );
 	}
 
 	/**
@@ -58,7 +58,7 @@ abstract class AbstractPermalink {
 	 *
 	 * @abstract
 	 * @access   protected
-	 * @return   void
+	 * @return   string
 	 */
 	abstract protected function getPostType();
 
