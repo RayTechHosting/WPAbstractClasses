@@ -21,7 +21,7 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.2.0
+ * @version    0.3.5
  * @since      0.2.0
  */
 
@@ -154,6 +154,7 @@ abstract class AbstractPage {
 				'time'     => 'Time',
 				'url'      => 'Url',
 				'week'     => 'Week',
+				'wysiwyg'  => 'Wysiwyg',
 			];
 			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];

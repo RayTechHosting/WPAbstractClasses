@@ -21,8 +21,8 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.2.0
- * @since      0.1.0
+ * @version    0.3.5
+ * @since      0.3.5
  */
 
 namespace RayTech\WPAbstractClasses\Fields\Inputs;
@@ -30,9 +30,9 @@ namespace RayTech\WPAbstractClasses\Fields\Inputs;
 use RayTech\WPAbstractClasses\Fields\AbstractInput;
 
 /**
- * Media input
+ * Wysiwyg field class
  */
-class Media extends AbstractInput {
+class Wysisyg extends AbstractInput {
 	/**
 	 * __construct
 	 *
@@ -44,41 +44,19 @@ class Media extends AbstractInput {
 	 * @return void
 	 */
 	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'media' );
-		$this->setInputID( $id );
+		$this->setType( 'wysiwyg' );
 		$this->setName( $name );
+		$this->setInputID( $id );
 		$this->setValue( $value );
 		$this->setAttributes( $attr );
 	}
 
 	/**
-	 * Rendering method
+	 * Rendering function for Wysiwyg
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function render() {
-		{
-			$image            = ' button">Upload image';
-			$image_size       = 'full'; // It would be better to use thumbnail size here (150x150 or so).
-			$display          = 'none'; // Display state ot the "Remove image" button.
-			$image_attributes = wp_get_attachment_image_src( $this->getValue(), $image_size );
-
-		if ( $image_attributes ) {
-
-			// $image_attributes[0] - image URL
-			// $image_attributes[1] - image width
-			// $image_attributes[2] - image height
-
-			$image   = '"><img src="' . esc_url( $image_attributes[0] ) . '" style="max-width:100px;display:block;" />';
-			$display = 'inline-block';
-		}
-
-		echo '<div>
-                <a href="#" id="' . esc_attr( $this->getInputId() ) . 's-image" class="' . esc_attr( RTABSTRACT_THEME_NAME ) . '_upload_image_button' . $image . '</a>
-                <input type="hidden" name="' . esc_attr( $this->getName() ) . '" id="' . esc_attr( $this->getInputId() ) . '" value="' . esc_attr( $this->getValue() ) . '" />
-                <a href="#" class="' . esc_attr( RTABSTRACT_THEME_NAME ) . '_remove_image_button" style="display:' . esc_attr( $display ) . '">Remove image</a>
-            </div>';
-		}
+		wp_editor( $this->getValue(), $this->getInputId() );
 	}
 }

@@ -62,8 +62,8 @@ abstract class AbstractMetaBox {
 	 * Constructor method which sets some variable and adds action for the meta boxes.
 	 */
 	public function __construct() {
-		$this->post_type_class = THEME_NAME . '-' . $this->getPostType() . '-';
-		$this->post_type_name  = THEME_NAME . '_' . $this->getPostType();
+		$this->post_type_class = RTABSTRACT_THEME_NAME . '-' . $this->getPostType() . '-';
+		$this->post_type_name  = RTABSTRACT_THEME_NAME . '_' . $this->getPostType();
 		add_action( 'load-post.php', [$this, 'add_boxes_setup'] );
 		add_action( 'load-post-new.php', [$this, 'add_boxes_setup'] );
 	}
@@ -144,6 +144,7 @@ abstract class AbstractMetaBox {
 				'time'     => 'Time',
 				'url'      => 'Url',
 				'week'     => 'Week',
+				'wysiwyg'  => 'Wysiwyg',
 			];
 			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];
@@ -180,7 +181,7 @@ abstract class AbstractMetaBox {
 		}
 
 		$config = $this->getConfig();
-		$values = array_keys($config);
+		$values = array_keys( $config );
 
 		foreach ( $values as $meta_key ) {
 			if ( ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
