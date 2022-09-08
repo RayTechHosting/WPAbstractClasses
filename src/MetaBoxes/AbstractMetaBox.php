@@ -144,6 +144,7 @@ abstract class AbstractMetaBox {
 				'time'     => 'Time',
 				'url'      => 'Url',
 				'week'     => 'Week',
+				'wysiwyg'  => 'Wysiwyg',
 			];
 			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];
@@ -180,7 +181,7 @@ abstract class AbstractMetaBox {
 		}
 
 		$config = $this->getConfig();
-		$values = array_keys($config);
+		$values = array_keys( $config );
 
 		foreach ( $values as $meta_key ) {
 			if ( ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
