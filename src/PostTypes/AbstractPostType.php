@@ -49,7 +49,7 @@ abstract class AbstractPostType {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->post_type_name = THEME_NAME . '_' . $this->getPostType() . '';
+		$this->post_type_name = RTABSTRACT_THEME_NAME . '_' . $this->getPostType() . '';
 		add_action( 'init', [ $this, 'registerPostType' ] );
 	}
 

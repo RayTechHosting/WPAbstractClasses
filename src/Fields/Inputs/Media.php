@@ -75,9 +75,9 @@ class Media extends AbstractInput {
 		}
 
 		echo '<div>
-                <a href="#" id="' . esc_attr( $this->getInputId() ) . 's-image" class="' . esc_attr( THEME_NAME ) . '_upload_image_button' . $image . '</a>
+                <a href="#" id="' . esc_attr( $this->getInputId() ) . 's-image" class="' . esc_attr( RTABSTRACT_THEME_NAME ) . '_upload_image_button' . $image . '</a>
                 <input type="hidden" name="' . esc_attr( $this->getName() ) . '" id="' . esc_attr( $this->getInputId() ) . '" value="' . esc_attr( $this->getValue() ) . '" />
-                <a href="#" class="' . esc_attr( THEME_NAME ) . '_remove_image_button" style="display:' . esc_attr( $display ) . '">Remove image</a>
+                <a href="#" class="' . esc_attr( RTABSTRACT_THEME_NAME ) . '_remove_image_button" style="display:' . esc_attr( $display ) . '">Remove image</a>
             </div>';
 		}
 	}
