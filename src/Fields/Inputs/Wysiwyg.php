@@ -32,7 +32,8 @@ use RayTech\WPAbstractClasses\Fields\AbstractInput;
 /**
  * Wysiwyg field class
  */
-class Wysisyg extends AbstractInput {
+class Wysiwyg extends AbstractInput {
+
 	/**
 	 * __construct
 	 *

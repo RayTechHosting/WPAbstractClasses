@@ -21,42 +21,49 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.3.2
+ * @version    0.3.6
  * @since      0.1.0
  */
 
 namespace RayTech\WPAbstractClasses\MetaBoxes;
 
+use Exception;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 
 /**
- * Metabox Abstract class
+ * Meta box Abstract class
  *
  * @abstract
  */
 abstract class AbstractMetaBox {
-
 
 	/**
 	 * Post type name class string.
 	 *
 	 * @var string $post_type_class
 	 */
-	protected $post_type_class = '';
+	private $post_type_class = '';
 
 	/**
 	 * Post type name string.
 	 *
 	 * @var string $post_type_name
 	 */
-	protected $post_type_name = '';
+	private $post_type_name = '';
 
 	/**
-	 * Values array
+	 * Configuration array of the input fiels in the meta box
 	 *
-	 * @var array
+	 * @var array $config
 	 */
-	protected $values = [];
+	private $config = [];
+
+	/**
+	 * The name of the meta box shown in the header.
+	 *
+	 * @var string
+	 */
+	private $name = 'Meta';
 
 	/**
 	 * Constructor method which sets some variable and adds action for the meta boxes.
@@ -86,18 +93,13 @@ abstract class AbstractMetaBox {
 	abstract protected function getPostType();
 
 	/**
-	 * Returns the name of the meta box
-	 *
-	 * @return string
-	 */
-	abstract protected function getName();
-
-	/**
 	 * This method is required and sets the needed inputs and their attributes for the meta box.
 	 *
 	 * @return array
 	 */
-	abstract protected function getConfig();
+	protected function getConfig() {
+		return $this->config;
+	}
 
 	/**
 	 * Add meta boxes to the admin edit page of the post type.
@@ -106,6 +108,26 @@ abstract class AbstractMetaBox {
 	 */
 	public function add_boxes() {
 		add_meta_box( $this->post_type_class . $this->getName(), ucfirst( $this->getName() ), [ $this, 'meta_boxes' ], $this->getPostType() );
+	}
+
+	/**
+	 * Adds an input to the meta box configuration.
+	 *
+	 * @param string $type HTML input type
+	 * @param string $label Sets the label of the input
+	 * @param string $id    Sets the HTML attributes id and name with this variable linking it to the label
+	 * @param array  $attr An array of all the other possible HTML attributes.
+	 * @return void
+	 */
+	protected function addInput( $type = 'text', $label = '', $id = '', $attr = [] ) {
+		if ( isset( $this->config[ $id ] ) ) {
+			throw new Exception( 'An input with this id was already declared, please confirm your ids' );
+		}
+		$this->config[ $id ] = [
+			'type'  => $type,
+			'label' => $label,
+			'attr'  => $attr,
+		];
 	}
 
 	/**
@@ -202,5 +224,27 @@ abstract class AbstractMetaBox {
 				delete_post_meta( $post_id, $meta_key, $meta_value );
 			}
 		}
+	}
+
+	/**
+	 * Get the name of the meta box shown in the header.
+	 *
+	 * @return  string
+	 */
+	public function getName() {
+		 return $this->name;
+	}
+
+	/**
+	 * Set the name of the meta box shown in the header.
+	 *
+	 * @param  string $name  The name of the meta box shown in the header.
+	 *
+	 * @return  self
+	 */
+	public function setName( string $name ) {
+		$this->name = $name;
+
+		return $this;
 	}
 }
