@@ -62,7 +62,7 @@ abstract class AbstractPostType {
 	 * @access protected
 	 * @var bool
 	 */
-	protected $public;
+	private $public;
 
 	/**
 	 * This variable constrols whether the post type is publicly queriable.
@@ -90,7 +90,7 @@ abstract class AbstractPostType {
 	 *
 	 * @var bool
 	 */
-	private $exclude_from_seach;
+	private $exclude_from_search;
 
 	/**
 	 * Whether to generate and allow a UI for managing this post type in the admin.
@@ -492,7 +492,7 @@ abstract class AbstractPostType {
 	 *
 	 * @return  bool
 	 */ 
-	public function getExclude_fromSearch()
+	public function getExcludeFromSearch()
 	{
 		return $this->exclude_from_search;
 	}
