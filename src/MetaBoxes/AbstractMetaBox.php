@@ -113,10 +113,11 @@ abstract class AbstractMetaBox {
 	/**
 	 * Adds an input to the meta box configuration.
 	 *
-	 * @param string $type HTML input type
-	 * @param string $label Sets the label of the input
-	 * @param string $id    Sets the HTML attributes id and name with this variable linking it to the label
+	 * @param string $type HTML input type.
+	 * @param string $label Sets the label of the input.
+	 * @param string $id    Sets the HTML attributes id and name with this variable linking it to the label.
 	 * @param array  $attr An array of all the other possible HTML attributes.
+	 * @throws Exception Throws Exception when an HTML id is doubled by mistake.
 	 * @return void
 	 */
 	protected function addInput( $type = 'text', $label = '', $id = '', $attr = [] ) {
