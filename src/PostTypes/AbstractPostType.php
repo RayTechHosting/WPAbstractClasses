@@ -21,7 +21,7 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.3.6
  * @since      0.1.0
  */
 
@@ -40,21 +40,21 @@ abstract class AbstractPostType {
 	 * @access protected
 	 * @var string
 	 */
-	protected $post_type_name = '';
+	private $post_type_name;
 
 	/**
 	 * Name of the post type shown in the menu. Usually plural.
 	 *
 	 * @var string
 	 */
-	protected $label;
+	private $label;
 
 	/**
 	 * An array of labels for this post type.
 	 *
 	 * @var string[]
 	 */
-	protected $labels;
+	private $labels;
 
 	/**
 	 * This variable sets the publicly viewable settings.
@@ -62,98 +62,98 @@ abstract class AbstractPostType {
 	 * @access protected
 	 * @var bool
 	 */
-	protected $public = true;
+	protected $public;
 
 	/**
 	 * This variable constrols whether the post type is publicly queriable.
 	 *
 	 * @var bool
 	 */
-	protected $publicly_queriable = true;
+	private $publicly_queriable;
 
 	/**
 	 * Description of the post type.
 	 *
 	 * @var string
 	 */
-	protected $description;
+	private $description;
 
 	/**
 	 * This variable sets wether or not the post is hierarchical.
 	 *
 	 * @var bool
 	 */
-	protected $hierarchical;
+	private $hierarchical;
 
 	/**
 	 * Whether to exclude posts with this post type from front end search results.
 	 *
 	 * @var bool
 	 */
-	protected $exclude_from_seach;
+	private $exclude_from_seach;
 
 	/**
 	 * Whether to generate and allow a UI for managing this post type in the admin.
 	 *
 	 * @var bool
 	 */
-	protected $show_ui;
+	private $show_ui;
 
 	/**
 	 * Undocumented variable
 	 *
 	 * @var bool|string
 	 */
-	protected $show_in_menu;
+	private $show_in_menu;
 
 	/**
 	 * Makes this post type available for selection in navigation menus.
 	 *
 	 * @var bool
 	 */
-	protected $show_in_nav_menus;
+	private $show_in_nav_menus;
 
 	/**
 	 * Makes this post type available via the admin bar.
 	 *
 	 * @var bool
 	 */
-	protected $show_in_admin_bar;
+	private $show_in_admin_bar;
 
 	/**
 	 * Whether to include the post type in the REST API.
 	 *
 	 * @var bool
 	 */
-	protected $show_in_rest;
+	private $show_in_rest;
 
 	/**
 	 * To change the base URL of REST API route.
 	 *
 	 * @var string
 	 */
-	protected $rest_base;
+	private $rest_base;
 
 	/**
 	 * To change the namespace URL of REST API route.
 	 *
 	 * @var string
 	 */
-	protected $rest_namespace;
+	private $rest_namespace;
 
 	/**
 	 * REST API controller class name.
 	 *
 	 * @var string
 	 */
-	protected $rest_controller_class;
+	private $rest_controller_class;
 
 	/**
 	 * The position in the menu order the post type should appear.
 	 *
 	 * @var integer
 	 */
-	protected $menu_position;
+	private $menu_position;
 
 	/**
 	 * The URL to the icon to be used for this menu. Pass a base64-encoded SVG using a data URI,
@@ -164,98 +164,98 @@ abstract class AbstractPostType {
 	 *
 	 * @var string
 	 */
-	protected $menu_icon;
+	private $menu_icon;
 
 	/**
 	 * The string to use to build the read, edit, and delete capabilities.
 	 *
 	 * @var string|array
 	 */
-	protected $capability_type;
+	private $capability_type;
 
 	/**
 	 * Array of capabilities for this post type.
 	 *
 	 * @var string[]
 	 */
-	protected $capabilities;
+	private $capabilities;
 
 	/**
 	 * Whether to use the internal default meta capability handling.
 	 *
 	 * @var bool
 	 */
-	protected $map_meta_cap;
+	private $map_meta_cap;
 
 	/**
 	 * Core feature(s) the post type supports.
 	 *
 	 * @var array
 	 */
-	protected $supports;
+	private $supports;
 
 	/**
 	 * Provide a callback function that sets up the meta boxes for the edit form.
 	 *
 	 * @var callable
 	 */
-	protected $register_meta_box_cb;
+	private $register_meta_box_cb;
 
 	/**
 	 * An array of taxonomy identifiers that will be registered for the post type.
 	 *
 	 * @var string[]
 	 */
-	protected $taxonomies;
+	private $taxonomies;
 
 	/**
 	 * Whether there should be post type archives, or if a string, the archive slug to use.
 	 *
 	 * @var bool|string
 	 */
-	protected $has_archive;
+	private $has_archive;
 
 	/**
 	 * Triggers the handling of rewrites for this post type. To prevent rewrite, set to false.
 	 *
 	 * @var bool|array
 	 */
-	protected $rewrite;
+	private $rewrite;
 
 	/**
 	 * Sets the query_var key for this post type.
 	 *
 	 * @var string|bool
 	 */
-	protected $query_var;
+	private $query_var;
 
 	/**
 	 * Whether to allow this post type to be exported.
 	 *
 	 * @var bool
 	 */
-	protected $can_export;
+	private $can_export;
 
 	/**
 	 * Whether to delete posts of this type when deleting a user.
 	 *
 	 * @var bool
 	 */
-	protected $delete_with_user;
+	private $delete_with_user;
 
 	/**
 	 * Array of blocks to use as the default initial state for an editor session.
 	 *
 	 * @var array
 	 */
-	protected $template;
+	private $template;
 
 	/**
 	 * Whether the block template should be locked if $template is set.
 	 *
 	 * @var string|false
 	 */
-	protected $template_lock;
+	private $template_lock;
 
 	/**
 	 * Constructor method add the required action for registering the post type.
@@ -272,7 +272,6 @@ abstract class AbstractPostType {
 		if ( ! $cat_slug ) {
 			$cat_slug = $this->getPostType() . 's';
 		}
-		
 		$this
 			->setPublic( true )
 			->setPubliclyQueriable( true )
@@ -1036,6 +1035,30 @@ abstract class AbstractPostType {
 	public function setQueryVar($query_var)
 	{
 		$this->query_var = $query_var;
+
+		return $this;
+	}
+
+	/**
+	 * Get whether to use the internal default meta capability handling.
+	 *
+	 * @return  bool
+	 */ 
+	public function getMapMetaCap()
+	{
+		return $this->map_meta_cap;
+	}
+
+	/**
+	 * Set whether to use the internal default meta capability handling.
+	 *
+	 * @param  bool  $map_meta_cap  Whether to use the internal default meta capability handling.
+	 *
+	 * @return  self
+	 */ 
+	public function setMapMetaCap(bool $map_meta_cap)
+	{
+		$this->map_meta_cap = $map_meta_cap;
 
 		return $this;
 	}
