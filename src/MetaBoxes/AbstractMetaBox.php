@@ -233,7 +233,7 @@ abstract class AbstractMetaBox {
 	 * @return  string
 	 */
 	public function getName() {
-		 return $this->name;
+		return $this->name;
 	}
 
 	/**
