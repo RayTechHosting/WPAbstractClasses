@@ -31,6 +31,7 @@ namespace RayTech\WPAbstractClasses\Administration;
  * Wrapper class for WordPress options
  */
 abstract class AbstractPage {
+
 	/**
 	 * Parent slugs for submenu pages
 	 *
@@ -50,6 +51,57 @@ abstract class AbstractPage {
 		'network'    => 'settings.php',
 		'custom'     => 'edit.php?post_type=',
 	];
+
+	/**
+	 * The text to be displayed in the title tags of the page when the menu is selected.
+	 *
+	 * @var string
+	 */
+	private $page_title;
+
+	/**
+	 * The text to be used for the menu.
+	 *
+	 * @var string
+	 */
+	private $menu_title;
+
+	/**
+	 * The capability required for this menu to be displayed to the user.
+	 *
+	 * @var string
+	 */
+	private $capability;
+
+	/**
+	 * The slug name to refer to this menu by. Should be unique for this menu page and only include
+	 * lowercase alphanumeric, dashes, and underscores characters to be compatible with sanitize_key
+	 * ().
+	 *
+	 * @var string
+	 */
+	private $menu_slug;
+
+	/**
+	 * The function to be called to output the content for this page.
+	 *
+	 * @var callable
+	 */
+	private $callback;
+
+	/**
+	 * The URL to the icon to be used for this menu.
+	 *
+	 * @var string
+	 */
+	private $icon_url;
+
+	/**
+	 * The position in the menu order this item should appear.
+	 *
+	 * @var int|float
+	 */
+	private $position;
 
 	/**
 	 * Constructor method
@@ -164,5 +216,159 @@ abstract class AbstractPage {
 			echo '</p>';
 
 		}
+	}
+
+	/**
+	 * Get the text to be displayed in the title tags of the page when the menu is selected.
+	 *
+	 * @return  string
+	 */
+	public function getPageTitle() {
+		return $this->page_title;
+	}
+
+	/**
+	 * Set the text to be displayed in the title tags of the page when the menu is selected.
+	 *
+	 * @param  string $page_title  The text to be displayed in the title tags of the page when the menu is selected.
+	 *
+	 * @return  self
+	 */
+	public function setPageTitle( string $page_title ) {
+		$this->page_title = $page_title;
+
+		return $this;
+	}
+
+	/**
+	 * Get the text to be used for the menu.
+	 *
+	 * @return  string
+	 */
+	public function getMenuTitle() {
+		return $this->menu_title;
+	}
+
+	/**
+	 * Set the text to be used for the menu.
+	 *
+	 * @param  string $menu_title  The text to be used for the menu.
+	 *
+	 * @return  self
+	 */
+	public function setMenuTitle( string $menu_title ) {
+		$this->menu_title = $menu_title;
+
+		return $this;
+	}
+
+	/**
+	 * Get the capability required for this menu to be displayed to the user.
+	 *
+	 * @return  string
+	 */
+	public function getCapability() {
+		return $this->capability;
+	}
+
+	/**
+	 * Set the capability required for this menu to be displayed to the user.
+	 *
+	 * @param  string $capability  The capability required for this menu to be displayed to the user.
+	 *
+	 * @return  self
+	 */
+	public function setCapability( string $capability ) {
+		$this->capability = $capability;
+
+		return $this;
+	}
+
+	/**
+	 * Get ().
+	 *
+	 * @return  string
+	 */
+	public function getMenuSlug() {
+		return $this->menu_slug;
+	}
+
+	/**
+	 * Set ().
+	 *
+	 * @param  string $menu_slug  ().
+	 *
+	 * @return  self
+	 */
+	public function setMenuSlug( string $menu_slug ) {
+		$this->menu_slug = $menu_slug;
+
+		return $this;
+	}
+
+	/**
+	 * Get the function to be called to output the content for this page.
+	 *
+	 * @return  callable
+	 */
+	public function getCallback() {
+		return $this->callback;
+	}
+
+	/**
+	 * Set the function to be called to output the content for this page.
+	 *
+	 * @param  callable $callback  The function to be called to output the content for this page.
+	 *
+	 * @return  self
+	 */
+	public function setCallback( callable $callback ) {
+		$this->callback = $callback;
+
+		return $this;
+	}
+
+	/**
+	 * Get the URL to the icon to be used for this menu.
+	 *
+	 * @return  string
+	 */
+	public function getIconUrl() {
+		return $this->icon_url;
+	}
+
+	/**
+	 * Set the URL to the icon to be used for this menu.
+	 *
+	 * @param  string $icon_url  The URL to the icon to be used for this menu.
+	 *
+	 * @return  self
+	 */
+	public function setIconUrl( string $icon_url ) {
+		$this->icon_url = $icon_url;
+
+		return $this;
+	}
+
+	/**
+	 * Get the position in the menu order this item should appear.
+	 *
+	 * @return  int|float
+	 */
+	public function getPosition() {
+		return $this->position;
+	}
+
+	/**
+	 * Set the position in the menu order this item should appear.
+	 *
+	 * @param  int|float $position  The position in the menu order this item should appear.
+	 *
+	 * @return  self
+	 */
+	public function setPosition( $position ) {
+		$this->position = $position;
+
+		return $this;
 	}
 }
