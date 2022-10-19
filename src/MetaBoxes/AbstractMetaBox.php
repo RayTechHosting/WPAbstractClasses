@@ -42,28 +42,35 @@ abstract class AbstractMetaBox {
 	 *
 	 * @var string $post_type_class
 	 */
-	private $post_type_class = '';
+	private $post_type_class;
 
 	/**
 	 * Post type name string.
 	 *
 	 * @var string $post_type_name
 	 */
-	private $post_type_name = '';
+	private $post_type_name;
 
 	/**
 	 * Configuration array of the input fiels in the meta box
 	 *
 	 * @var array $config
 	 */
-	private $config = [];
+	private $config;
+
+	/**
+	 * Amount of columns to seperate the meta box in.
+	 *
+	 * @var int $columns
+	 */
+	private $columns;
 
 	/**
 	 * The name of the meta box shown in the header.
 	 *
 	 * @var string
 	 */
-	private $name = 'Meta';
+	private $name = 'meta';
 
 	/**
 	 * Constructor method which sets some variable and adds action for the meta boxes.
@@ -140,7 +147,7 @@ abstract class AbstractMetaBox {
 	public function meta_boxes( $post ) {
 
 		wp_nonce_field( basename( __FILE__ ), $this->post_type_name . 's_meta_nonce' );
-
+		echo '<div class="grid grid-cols-' . esc_attr( $this->getColumns() ) . '">';
 		foreach ( $this->getConfig() as $meta_key => $value ) {
 			echo '<p>
 				<label for="' . esc_attr( $this->post_type_class . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
@@ -171,12 +178,23 @@ abstract class AbstractMetaBox {
 			];
 			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];
-			$input     = new $fqcn( $this->post_type_class . $meta_key, $this->post_type_class . $meta_key, get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ), $attr );
-			$input->render();
+			// TODO: Create conditional setup for fields.
+			if ( isset( $attr['repeat'] ) ) {
+				$repeat = $attr['repeat'] + 1;
+				unset( $attr['repeat'] );
+				for ( $loop = 1; $loop < $repeat; $loop++ ) {
+					$input = new $fqcn( $this->post_type_class . $meta_key . '-' . $loop, $this->post_type_class . $meta_key . '-' . $loop, get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ), $attr );
+					$input->render();
+				}
+			} else {
+				$input = new $fqcn( $this->post_type_class . $meta_key, $this->post_type_class . $meta_key, get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ), $attr );
+				$input->render();
+			}
 
 			echo '</p>';
 
 		}
+		echo '</div>';
 	}
 
 	/**
@@ -188,17 +206,15 @@ abstract class AbstractMetaBox {
 	 */
 	public function save_meta( $post_id, $post ) {
 
-		/**
-	* Verify the nonce before proceeding.
-*/
+		// Verify the nonce before proceeding.
 		if ( ! isset( $_POST[ $this->post_type_name . 's_meta_nonce' ] ) || ! wp_verify_nonce( $_POST[ $this->post_type_name . 's_meta_nonce' ], basename( __FILE__ ) ) ) {
 			return $post_id;
 		}
 
-		/* Get the post type object. */
+		// Get the post type object.
 		$post_type = get_post_type_object( $post->post_type );
 
-		/* Check if the current user has permission to edit the post. */
+		// Check if the current user has permission to edit the post.
 		if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) ) {
 			return $post_id;
 		}
@@ -208,15 +224,15 @@ abstract class AbstractMetaBox {
 
 		foreach ( $values as $meta_key ) {
 			if ( ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
-				/* Get the posted data and sanitize it for use as an HTML class. */
+				// Get the posted data and sanitize it for use as an HTML class.
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
 			} else {
 				$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
 			}
-			/* Get the meta value of the custom field key. */
+			// Get the meta value of the custom field key.
 			$meta_value = get_post_meta( $post_id, $this->post_type_class . $meta_key, true );
 
-			/* If a new meta value was added and there was no previous value, add it. */
+			// If a new meta value was added and there was no previous value, add it.
 			if ( $new_meta_value && '' === $meta_value ) {
 				add_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value, true );
 			} elseif ( $new_meta_value && $new_meta_value !== $meta_value ) { // If the new meta value does not match the old value, update it.
@@ -245,6 +261,28 @@ abstract class AbstractMetaBox {
 	 */
 	public function setName( string $name ) {
 		$this->name = $name;
+
+		return $this;
+	}
+
+	/**
+	 * Get amount of columns to seperate the meta box in.
+	 *
+	 * @return  int
+	 */
+	public function getColumns() {
+		return $this->columns;
+	}
+
+	/**
+	 * Set amount of columns to seperate the meta box in.
+	 *
+	 * @param  int $columns  Amount of columns to seperate the meta box in.
+	 *
+	 * @return  self
+	 */
+	public function setColumns( int $columns ) {
+		$this->columns = $columns;
 
 		return $this;
 	}
