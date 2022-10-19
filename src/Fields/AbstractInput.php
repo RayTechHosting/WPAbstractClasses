@@ -170,6 +170,9 @@ abstract class AbstractInput {
 	 * @return void
 	 */
 	public function render() {
+		if ( isset( $this->getAttributes()['prefix'] ) ) {
+			echo esc_html( $this->getAttributes()['prefix'] );
+		}
 		echo '<input type="' . esc_attr( $this->getType() ) . '" name="' . esc_attr( $this->getName() ) . '" id="' . esc_attr( $this->getInputId() ) . '" value="' . esc_attr( $this->getValue() ) . '"';
 		if ( $this->getType() === 'checkbox' && $this->getValue() === 'on' ) {
 			echo ' checked';
@@ -178,5 +181,8 @@ abstract class AbstractInput {
 			echo ' ' . esc_html( $key ) . '="' . esc_attr( $value ) . '"';
 		}
 		echo ' />';
+		if ( isset( $this->getAttributes()['suffix'] ) ) {
+			echo esc_html( $this->getAttributes()['suffix'] );
+		}
 	}
 }
