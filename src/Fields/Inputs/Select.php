@@ -66,6 +66,9 @@ class Select extends AbstractInput {
 		} else {
 			$value = $this->getValue();
 		}
+		if ( isset( $this->getAttributes()['prefix'] ) ) {
+			echo esc_html( $this->getAttributes()['prefix'] );
+		}
 		echo '<select id="' . esc_attr( $this->getInputId() ) . '" name="' . esc_attr( $this->getName() ) . '"';
 		if ( ! empty( $this->getAttributes() ) ) {
 			foreach ( $this->getAttributes() as $attr => $attr_value ) {
@@ -92,5 +95,8 @@ class Select extends AbstractInput {
 			echo '>' . esc_html( $label ) . '</option>';
 		}
 		echo '</select>';
+		if ( isset( $this->getAttributes()['suffix'] ) ) {
+			echo esc_html( $this->getAttributes()['suffix'] );
+		}
 	}
 }
