@@ -21,7 +21,7 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.3.6
+ * @version    0.6.0
  * @since      0.1.0
  */
 

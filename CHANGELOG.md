@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2022-10-22
+
+### Added
+
+- Added Labels class to post type and taxonomies to simplify the process of creating or modifying labels
+- A trait for post type methods and property to all abstract classes
+
+### Changed
+
+- The getPostType() method is no longer abstract needing to be created but needs to be set thru the setPostType() method
+- The taxonomy getType() method is no longer abstract and can be set thru the setType() method instead
+
 ## [0.5.0] - 2022-10-18
 
 ### Added
