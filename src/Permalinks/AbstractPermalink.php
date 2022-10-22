@@ -21,11 +21,13 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.6.0
  * @since      0.1.0
  */
 
 namespace RayTech\WPAbstractClasses\Permalinks;
+
+use RayTech\WPAbstractClasses\Traits\PostType;
 
 /**
  * Abstract permalink class.
@@ -34,6 +36,7 @@ namespace RayTech\WPAbstractClasses\Permalinks;
  */
 abstract class AbstractPermalink {
 
+	use PostType;
 	/**
 	 * Post type name
 	 *
@@ -49,18 +52,9 @@ abstract class AbstractPermalink {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->post_type_name = $this->getPostType();
+		$this->post_type_name = RTABSTRACT_THEME_NAME . '-' . $this->getPostType();
 		add_action( 'load-options-permalink.php', [$this, 'loadPermalinks'] );
 	}
-
-	/**
-	 * Get post type
-	 *
-	 * @abstract
-	 * @access   protected
-	 * @return   string
-	 */
-	abstract protected function getPostType();
 
 	/**
 	 * Loading permalinks
@@ -71,13 +65,15 @@ abstract class AbstractPermalink {
 	public function loadPermalinks() {
 		add_option( $this->post_type_name . '_base' );
 		add_option( $this->post_type_name . '_cat' );
-		if ( isset( $_POST[ $this->post_type_name . '_base' ] ) ) {
+		if ( isset( $_POST[ $this->post_type_name . '_base' ] ) && isset( $_POST[ $this->post_type_name . '_nonce_base' ] ) && wp_verify_nonce( $_POST[ $this->post_type_name . '_nonce_base' ], RTABSTRACT_THEME_NAME . $this->post_type_name . '_base' ) ) {
 			update_option( $this->post_type_name . '_base', sanitize_title_with_dashes( $_POST[ $this->post_type_name . '_base' ] ) );
 		}
-		if ( isset( $_POST[ $this->post_type_name . '_cat' ] ) ) {
+		if ( isset( $_POST[ $this->post_type_name . '_cat' ] ) && isset( $_POST[ $this->post_type_name . '_nonce_cat' ] ) && wp_verify_nonce( $_POST[ $this->post_type_name . '_nonce_cat' ], RTABSTRACT_THEME_NAME . $this->post_type_name . '_cat' ) ) {
 			update_option( $this->post_type_name . '_cat', sanitize_title_with_dashes( $_POST[ $this->post_type_name . '_cat' ] ) );
 		}
+		// phpcs:ignore
 		add_settings_field( $this->post_type_name . '_base', __( ucfirst( $this->getPostType() ) . 's single', 'basicstarter' ), [$this, 'permalinks_field_callback'], 'permalink', 'optional' );
+		// phpcs:ignore
 		add_settings_field( $this->post_type_name . '_cat', __( ucfirst( $this->getPostType() ) . 's archive', 'basicstarter' ), [$this, 'permalinks_cat_field_callback'], 'permalink', 'optional' );
 	}
 
@@ -89,7 +85,8 @@ abstract class AbstractPermalink {
 	 */
 	public function permalinks_field_callback() {
 		$value = get_option( $this->post_type_name . '_base' );
-		echo '<input type="text" value="' . esc_attr( $value ) . '" name="' . $this->post_type_name . '_base" id="' . $this->post_type_name . '_base" class="regular-text" />';
+		echo '<input type="text" value="' . esc_attr( $value ) . '" name="' . esc_attr( $this->post_type_name ) . '_base" id="' . esc_attr( $this->post_type_name ) . '_base" class="regular-text" />';
+		wp_nonce_field( RTABSTRACT_THEME_NAME . $this->post_type_name . '_base', $this->post_type_name . '_nonce_base' );
 	}
 
 	/**
@@ -100,6 +97,7 @@ abstract class AbstractPermalink {
 	 */
 	public function permalinks_cat_field_callback() {
 		$value = get_option( $this->post_type_name . '_cat' );
-		echo '<input type="text" value="' . esc_attr( $value ) . '" name="' . $this->post_type_name . '_cat" id="' . $this->post_type_name . '_cat" class="regular-text" />';
+		echo '<input type="text" value="' . esc_attr( $value ) . '" name="' . esc_attr( $this->post_type_name ) . '_cat" id="' . esc_attr( $this->post_type_name ) . '_cat" class="regular-text" />';
+		wp_nonce_field( RTABSTRACT_THEME_NAME . $this->post_type_name . '_cat', esc_attr( $this->post_type_name ) . '_nonce_cat' );
 	}
 }

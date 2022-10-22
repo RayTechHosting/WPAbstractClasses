@@ -21,13 +21,14 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.3.6
+ * @version    0.6.0
  * @since      0.1.0
  */
 
 namespace RayTech\WPAbstractClasses\MetaBoxes;
 
 use Exception;
+use RayTech\WPAbstractClasses\Traits\PostType;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 
 /**
@@ -37,20 +38,7 @@ use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
  */
 abstract class AbstractMetaBox {
 
-	/**
-	 * Post type name class string.
-	 *
-	 * @var string $post_type_class
-	 */
-	private $post_type_class;
-
-	/**
-	 * Post type name string.
-	 *
-	 * @var string $post_type_name
-	 */
-	private $post_type_name;
-
+	use PostType;
 	/**
 	 * Configuration array of the input fiels in the meta box
 	 *
@@ -66,11 +54,32 @@ abstract class AbstractMetaBox {
 	private $columns;
 
 	/**
-	 * The name of the meta box shown in the header.
+	 * This will set the label of the header of the meta box.
 	 *
 	 * @var string
 	 */
-	private $name = 'meta';
+	private $header = '';
+
+	/**
+	 * The slug of the meta box.
+	 *
+	 * @var string
+	 */
+	private $slug = 'meta';
+
+	/**
+	 * Post type name class string.
+	 *
+	 * @var string $post_type_class
+	 */
+	private $post_type_class;
+
+	/**
+	 * Post type name string.
+	 *
+	 * @var string $post_type_name
+	 */
+	private $post_type_name;
 
 	/**
 	 * Constructor method which sets some variable and adds action for the meta boxes.
@@ -93,13 +102,6 @@ abstract class AbstractMetaBox {
 	}
 
 	/**
-	 * Returns the post type this meta box is associated with
-	 *
-	 * @return string
-	 */
-	abstract protected function getPostType();
-
-	/**
 	 * This method is required and sets the needed inputs and their attributes for the meta box.
 	 *
 	 * @return array
@@ -114,7 +116,7 @@ abstract class AbstractMetaBox {
 	 * @return void
 	 */
 	public function add_boxes() {
-		add_meta_box( $this->post_type_class . $this->getName(), ucfirst( $this->getName() ), [ $this, 'meta_boxes' ], $this->getPostType() );
+		add_meta_box( $this->post_type_class . $this->getSlug(), esc_html( ucfirst( $this->getHeader() ) ), [ $this, 'meta_boxes' ], $this->getPostType() );
 	}
 
 	/**
@@ -244,23 +246,23 @@ abstract class AbstractMetaBox {
 	}
 
 	/**
-	 * Get the name of the meta box shown in the header.
+	 * Get the slug of the meta box.
 	 *
 	 * @return  string
 	 */
-	public function getName() {
-		return $this->name;
+	public function getSlug() {
+		return $this->slug;
 	}
 
 	/**
-	 * Set the name of the meta box shown in the header.
+	 * Set the slug of the meta box.
 	 *
-	 * @param  string $name  The name of the meta box shown in the header.
+	 * @param  string $slug  The slug of the meta box.
 	 *
 	 * @return  self
 	 */
-	public function setName( string $name ) {
-		$this->name = $name;
+	public function setSlug( string $slug ) {
+		$this->slug = $slug;
 
 		return $this;
 	}
@@ -283,6 +285,28 @@ abstract class AbstractMetaBox {
 	 */
 	public function setColumns( int $columns ) {
 		$this->columns = $columns;
+
+		return $this;
+	}
+
+	/**
+	 * Get this will set the label of the header of the meta box.
+	 *
+	 * @return  string
+	 */
+	public function getHeader() {
+		return $this->header;
+	}
+
+	/**
+	 * Set this will set the label of the header of the meta box.
+	 *
+	 * @param  string $header  This will set the label of the header of the meta box.
+	 *
+	 * @return  self
+	 */
+	public function setHeader( string $header ) {
+		$this->header = $header;
 
 		return $this;
 	}

@@ -21,11 +21,13 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.1.0
+ * @version    0.6.0
  * @since      0.1.0
  */
 
 namespace RayTech\WPAbstractClasses\Taxonomies;
+
+use RayTech\WPAbstractClasses\Traits\PostType;
 
 /**
  * This class has the basic functions for creating a taxonomy in WordPress
@@ -34,6 +36,8 @@ namespace RayTech\WPAbstractClasses\Taxonomies;
  * @abstract
  */
 abstract class AbstractTaxonomy {
+
+	use PostType;
 
 	/**
 	 * Type strings array
@@ -44,7 +48,7 @@ abstract class AbstractTaxonomy {
 	private $types;
 
 	/**
-	 * What type of txonomy this taxonomy will be.
+	 * What type of taxonomy this taxonomy will be.
 	 *
 	 * @var string
 	 */
@@ -209,48 +213,14 @@ abstract class AbstractTaxonomy {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->types = [
-			'category' => [
-				'singular' => 'Category',
-				'plural'   => 'Categories',
-			],
-			'tag'      => [
-				'singular' => 'Tag',
-				'plural'   => 'Tags',
-			],
-		];
-		// phpcs:disable
+		$labels = new Labels( $this->getPostType(), $this->getType() );
 		$this
-			->setLabels(
-				[
-					'name'              => _x( ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'taxonomy general name', 'basicstarter' ),
-					'singular_name'     => _x( ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'taxonomy singular name', 'basicstarter' ),
-					'search_items'      => __( 'Search ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'basicstarter' ),
-					'all_items'         => __( 'All ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'basicstarter' ),
-					'parent_item'       => __( 'Parent ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'basicstarter' ),
-					'parent_item_colon' => __( 'Parent ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'] . ':', 'basicstarter' ),
-					'edit_item'         => __( 'Edit ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'basicstarter' ),
-					'update_item'       => __( 'Update ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'basicstarter' ),
-					'add_new_item'      => __( 'Add New ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'basicstarter' ),
-					'new_item_name'     => __( 'New ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'basicstarter' ),
-					'menu_name'         => __( ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'basicstarter' ),
-				]
-			)
-			//phpcs:enable
+			->setLabels( $labels->toArray() )
 			->setQueryVar( $this->getType() === 'tag' )
 			->setHierarchical( $this->getType() === 'category' );
 
 		add_action( 'init', [ $this, 'registerTaxonomy' ] );
 	}
-
-	/**
-	 * Set the post getType() for this taxonomy
-	 *
-	 * @abstract
-	 * @access protected
-	 * @return string
-	 */
-	abstract protected function getPostType();
 
 	/**
 	 * Register the actual taxonomy
@@ -263,18 +233,20 @@ abstract class AbstractTaxonomy {
 	}
 
 	/**
-	 * Configure you taxonomy by overriding this method
+	 * This methods creates the array for the configuration.
 	 *
 	 * @access protected
 	 * @link https://developer.wordpress.org/reference/functions/register_taxonomy/#arguments
 	 * @return array
 	 */
 	protected function getConfig() {
-		return [
-			'labels'       => $this->getLabels(),
-			'hierarchical' => ( $this->getType() === 'category' ) ? true : false,
-			'query_var'    => ( $this->getType() === 'tag' ) ? true : false,
-		];
+		$config = [];
+		foreach ( $this as $key => $value ) {
+			if ( ! empty( $value ) ) {
+				$config[ $key ] = $value;
+			}
+		}
+		return $config;
 	}
 
 	/**
