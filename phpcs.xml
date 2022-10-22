@@ -80,7 +80,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="basicstarter"/>
+				<element value="rtabstract"/>
 			</property>
 		</properties>
 	</rule>
@@ -89,7 +89,8 @@
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="raytech"/>
-				<element value="basicStarter"/>
+				<element value="rtabstract"/>
+				<element value="wpabstractclasses" />
 			</property>
 		</properties>
 	</rule>
