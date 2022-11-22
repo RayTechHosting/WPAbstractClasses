@@ -142,7 +142,7 @@ abstract class AbstractPage {
 			'position'   => 10,
 			'fields'     => [
 				'test_input' => [
-					'label' => __( 'Test text', 'basicstarter' ),
+					'label' => __( 'Test text', 'rtabstract' ),
 					'type'  => 'text',
 				],
 			],

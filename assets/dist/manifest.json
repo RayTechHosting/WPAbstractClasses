@@ -1,0 +1,12 @@
+{
+  "src/js/index.js": {
+    "file": "js/main.js",
+    "src": "src/js/index.js",
+    "isEntry": true
+  },
+  "src/js/jquery.mediaupload.js": {
+    "file": "js/jquery.mediaupload.js",
+    "src": "src/js/jquery.mediaupload.js",
+    "isEntry": true
+  }
+}

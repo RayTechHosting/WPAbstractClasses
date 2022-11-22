@@ -225,22 +225,27 @@ abstract class AbstractMetaBox {
 		$values = array_keys( $config );
 
 		foreach ( $values as $meta_key ) {
-			if ( ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
-				// Get the posted data and sanitize it for use as an HTML class.
+			if ( 'wysiwyg' === $config[ $meta_key ]['type'] ) {
+				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_UNSAFE_RAW ) : '' );
+			} elseif ( isset( $_POST[ $this->post_type_class . $meta_key ] ) && ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
 			} else {
-				$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
+				if ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ) {
+					$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
+				}
 			}
 			// Get the meta value of the custom field key.
 			$meta_value = get_post_meta( $post_id, $this->post_type_class . $meta_key, true );
 
-			// If a new meta value was added and there was no previous value, add it.
-			if ( $new_meta_value && '' === $meta_value ) {
-				add_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value, true );
-			} elseif ( $new_meta_value && $new_meta_value !== $meta_value ) { // If the new meta value does not match the old value, update it.
-				update_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value );
-			} elseif ( '' === $new_meta_value && $meta_value ) { // If there is no new meta value but an old value exists, delete it.
-				delete_post_meta( $post_id, $meta_key, $meta_value );
+			if ( isset( $new_meta_value ) ) {
+				// If a new meta value was added and there was no previous value, add it.
+				if ( $new_meta_value && '' === $meta_value ) {
+					add_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value, true );
+				} elseif ( $new_meta_value && $new_meta_value !== $meta_value ) { // If the new meta value does not match the old value, update it.
+					update_post_meta( $post_id, $this->post_type_class . $meta_key, $new_meta_value );
+				} elseif ( '' === $new_meta_value && $meta_value ) { // If there is no new meta value but an old value exists, delete it.
+					delete_post_meta( $post_id, $this->post_type_class . $meta_key, $meta_value );
+				}
 			}
 		}
 	}

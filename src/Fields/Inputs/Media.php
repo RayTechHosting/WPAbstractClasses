@@ -49,7 +49,7 @@ class Media extends AbstractInput {
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setAttributes( $attr );
-		wp_enqueue_script( 'rtabstract-media', plugin_dir_url( __FILE__ ) . '../../../assets/js/jquery.mediaupload.js', ['jquery'], '0.1.0', true );
+		wp_enqueue_script( 'rtabstract-media', plugin_dir_url( __FILE__ ) . '../../../assets/dist/js/jquery.mediaupload.js', ['jquery'], '0.1.0', true );
 	}
 
 	/**
@@ -59,7 +59,6 @@ class Media extends AbstractInput {
 	 * @return void
 	 */
 	public function render() {
-			echo __DIR__;
 			$image            = ' button">Upload image';
 			$image_size       = 'full'; // It would be better to use thumbnail size here (150x150 or so).
 			$display          = 'none'; // Display state ot the "Remove image" button.
@@ -75,10 +74,11 @@ class Media extends AbstractInput {
 			$display = 'inline-block';
 		}
 
-		echo '<div>
-                <a href="#" id="' . esc_attr( $this->getInputId() ) . 's-image" class="rtabstract_upload_image_button' . $image . '</a>
+		echo '<div>'
+			//phpcs:ignore
+                .'<button id="' . esc_attr( $this->getInputId() ) . 's-image" class="rtabstract_upload_image_button' . $image . '</button>
                 <input type="hidden" name="' . esc_attr( $this->getName() ) . '" id="' . esc_attr( $this->getInputId() ) . '" value="' . esc_attr( $this->getValue() ) . '" />
-                <a href="#" class="rtabstract_remove_image_button" style="display:' . esc_attr( $display ) . '">Remove image</a>
+                <button class="rtabstract_remove_image_button" style="display:' . esc_attr( $display ) . '">Remove image</button>
             </div>';
 	}
 }

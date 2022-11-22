@@ -209,7 +209,7 @@ class Setting {
 	 * @return void
 	 **/
 	public function render_sections() {
-		do_settings_section( $this->page );
+		do_settings_sections( $this->page );
 	}
 
 	/**
