@@ -18,6 +18,7 @@
                 <path>vendor</path>
                 <path>tests</path>
                 <path>examples</path>
+                <path>assets</path>
             </ignore>
         </api>
     </version>

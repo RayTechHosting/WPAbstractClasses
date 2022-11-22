@@ -2,7 +2,7 @@ jQuery( function( $ ) {
 	/*
 	 * Select/Upload image(s) event
 	 */
-	$( 'body' ).on( 'click', '.rtabstract_upload_image_button', function( e ) {
+	$( '.rtabstract_upload_image_button', ).on( 'click', function( e ) {
 		e.preventDefault();
 
 		const button = $( this ),
@@ -37,7 +37,7 @@ jQuery( function( $ ) {
 	/*
 	 * Remove image event
 	 */
-	$( 'body' ).on( 'click', '.rtabstract_remove_image_button', function() {
+	$( '.rtabstract_remove_image_button' ).on( 'click', function() {
 		$( this ).hide().prev().val( '' ).prev().addClass( 'button' ).html( 'Upload image' );
 		return false;
 	} );
