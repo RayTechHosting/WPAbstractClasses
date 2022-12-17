@@ -17,5 +17,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.4"
+    },
+    "scripts": {
+        "make-pot": "wp i18n make-pot . languages/wpabstractclasses.pot --domain=rtabstract"
     }
 }

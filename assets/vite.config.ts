@@ -28,10 +28,10 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve(__dirname, 'src/js/index.js'),
-				'jquery.mediaupload': resolve(__dirname, 'src/js/jquery.mediaupload.js')
+				'jquery.mediaupload': resolve(__dirname, 'src/js/jquery.mediaupload.ts')
 			},
 			output: {
-				entryFileNames: 'js/[name].js',
+				entryFileNames: 'js/[name]-[hash].js',
 				chunkFileNames: 'js/[name].js',
 				assetFileNames: ({ name }) => {
 					if (/\.(gif|jpe?g|png|svg)$/.test(name ?? '')) {

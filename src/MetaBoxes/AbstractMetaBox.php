@@ -169,6 +169,7 @@ abstract class AbstractMetaBox {
 				'password' => 'Password',
 				'radio'    => 'Radio',
 				'range'    => 'Range',
+				'repeater' => 'Repeater',
 				'select'   => 'Select',
 				'tel'      => 'Telephone',
 				'text'     => 'Text',
