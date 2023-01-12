@@ -21,15 +21,29 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.7.0
+ * @version    0.2.0
  * @since      0.7.0
  */
 
-namespace RayTech\WPAbstractClasses\Fields\Inputs;
-
-use RayTech\WPAbstractClasses\Fields\AbstractInput;
+namespace RayTech\WPAbstractClasses\Utilities;
 
 /**
- * Placeholder class to validate the repeater input system.
+ * Utility class for the input fields.
  */
-class Repeater extends AbstractInput {}
+class Fields {
+
+	/**
+	 * Returns the fully qualified class name of an input field.
+	 *
+	 * @param string $type Input type.
+	 * @return string
+	 */
+	public static function getFqcn( string $type ): string {
+		$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
+		$dir       = array_slice( scandir( __DIR__ . '/../Fields/Inputs/' ), 2 );
+		foreach ( $dir as $class ) {
+			$classes[ strtolower( substr( $class, 0, -4 ) ) ] = substr( $class, 0, -4 );
+		}
+		return $namespace . '\\' . $classes[ $type ];
+	}
+}
