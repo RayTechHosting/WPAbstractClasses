@@ -77,6 +77,7 @@ class Repeater {
 	 */
 	public function admin_enqueue() {
 		wp_enqueue_script( 'extra-repeater', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/js/repeater.js', ['jquery'], '0.1.0', true );
+		wp_enqueue_style( 'extra-repeater', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/css/repeater.css', [], '0.7.0', 'all' );
 	}
 
 	/**
@@ -120,41 +121,61 @@ class Repeater {
 	 * @return void
 	 */
 	public static function render( string $id, string $post_type, string $meta_key, array $fields, bool $blank = false ) {
-		echo '<div>';
+		$loop   = 0;
 		$name   = RTABSTRACT_THEME_NAME . '-' . $post_type . '-' . $meta_key;
 		$values = JsonEncoder::decode( get_post_meta( $id, $name, true ), true );
-		foreach ( $values as $loop => $value ) {
-			if ( is_array( $value ) ) {
-				foreach ( $fields as $input_key => $field ) {
-					$fqcn = Utils::getFqcn( $field['type'] );
-					if ( $blank ) {
-						if ( null !== $field['attr'] ) {
-							$attr = array_merge( $field['attr'], ['data-input-key' => $input_key] );
-						} else {
-							$attr = ['data-input-key' => $input_key];
-						}
-					} else {
+
+		if ( $blank ) {
+			echo '<div>';
+			echo '<div class="float-right close"><button type="button">X</button></div>';
+			foreach ( $fields as $input_key => $field ) {
+
+				$fqcn = Utils::getFqcn( $field['type'] );
+				if ( null !== $field['attr'] ) {
+					$attr = array_merge( $field['attr'], ['data-input-key' => $input_key] );
+				} else {
+					$attr = ['data-input-key' => $input_key];
+				}
+				echo '<p>
+				<label for="' . esc_attr( $name . '-' . $input_key ) . '">' . esc_html( $field['label'] ) . '</label>';
+				$input = new $fqcn(
+					$name . '-blank',
+					$name . '-blank',
+					'',
+					$attr
+				);
+				$input->render();
+				echo '</p>';
+			}
+			echo '<hr /></div>';
+		} else {
+			foreach ( $values as $value ) {
+				echo '<div>';
+				echo '<div class="float-right close"><button type="button">X</button></div>';
+				if ( is_array( $value ) ) {
+					foreach ( $fields as $input_key => $field ) {
+						$fqcn = Utils::getFqcn( $field['type'] );
 						if ( null !== $field['attr'] ) {
 							$attr = $field['attr'];
 						} else {
 							$attr = null;
 						}
-					}
 
-					echo '<p>
-					<div class="float-right close"><button type="button">X</button></div>
-					<label for="' . esc_attr( $name . '-' . $input_key . '-' . $loop ) . '">' . esc_html( $field['label'] ) . '</label>';
-					$input = new $fqcn(
-						( ! $blank ) ? $name . '-' . $input_key . '-' . $loop : $name . '-blank',
-						( ! $blank ) ? $name . '[' . $loop . '][' . $input_key . ']' : $name . '-blank',
-						( ! $blank ) ? $value[ $input_key ] : '',
-						$attr
-					);
-					$input->render();
-					echo '</p>';
+						echo '<p>
+						<label for="' . esc_attr( $name . '-' . $input_key . '-' . $loop ) . '">' . esc_html( $field['label'] ) . '</label>';
+						$input = new $fqcn(
+							$name . '-' . $input_key . '-' . $loop,
+							$name . '[' . $loop . '][' . $input_key . ']',
+							$value[ $input_key ],
+							$attr
+						);
+						$input->render();
+						echo '</p>';
+					}
 				}
+				echo '<hr /></div>';
+				$loop++;
 			}
 		}
-		echo '</div>';
 	}
 }
