@@ -48,6 +48,26 @@ class Repeater {
 	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue'] );
+		add_filter( 'script_loader_tag', [$this, 'add_type_attribute'], 10, 3 );
+	}
+
+	/**
+	 * Filter method for scripts.
+	 *
+	 * @param string $tag    Script HTML.
+	 * @param string $handle Script handle name.
+	 * @param string $src    Script source attribute.
+	 * @return string
+	 */
+	public function add_type_attribute( $tag, $handle, $src ) {
+		// if not your script, do nothing and return original $tag.
+		if ( 'extra-repeater-js' !== $handle ) {
+			return $tag;
+		}
+		// change the script tag by adding type="module" and return it.
+		// phpcs:ignore
+		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+		return $tag;
 	}
 
 	/**
@@ -100,7 +120,7 @@ class Repeater {
 	 * @return void
 	 */
 	public static function render( string $id, string $post_type, string $meta_key, array $fields, bool $blank = false ) {
-
+		echo '<div>';
 		$name   = RTABSTRACT_THEME_NAME . '-' . $post_type . '-' . $meta_key;
 		$values = JsonEncoder::decode( get_post_meta( $id, $name, true ), true );
 		foreach ( $values as $loop => $value ) {
@@ -122,6 +142,7 @@ class Repeater {
 					}
 
 					echo '<p>
+					<div class="float-right close"><button type="button">X</button></div>
 					<label for="' . esc_attr( $name . '-' . $input_key . '-' . $loop ) . '">' . esc_html( $field['label'] ) . '</label>';
 					$input = new $fqcn(
 						( ! $blank ) ? $name . '-' . $input_key . '-' . $loop : $name . '-blank',
@@ -134,5 +155,6 @@ class Repeater {
 				}
 			}
 		}
+		echo '</div>';
 	}
 }

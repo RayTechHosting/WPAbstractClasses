@@ -28,3 +28,8 @@ function getLastId(name: String): number {
 	});
 	return Math.max(...loop_ids);
 }
+
+jQuery( 'body' ).on( 'click', '.close button', function() {
+	console.log(jQuery( this ).parent().parent()[ 0 ]);
+	jQuery( this ).parent().parent()[ 0 ].remove();
+} );
