@@ -1,0 +1,33 @@
+{
+  "src/js/conditional.ts": {
+    "file": "js/conditional.js",
+    "src": "src/js/conditional.ts",
+    "isEntry": true,
+    "imports": [
+      "_jquery.js"
+    ]
+  },
+  "src/js/repeater.ts": {
+    "file": "js/repeater.js",
+    "src": "src/js/repeater.ts",
+    "isEntry": true,
+    "imports": [
+      "_jquery.js"
+    ],
+    "css": [
+      "css/repeater.css"
+    ]
+  },
+  "src/js/jquery.mediaupload.js": {
+    "file": "js/jquery.mediaupload.js",
+    "src": "src/js/jquery.mediaupload.js",
+    "isEntry": true
+  },
+  "_jquery.js": {
+    "file": "js/jquery.js"
+  },
+  "src/js/repeater.css": {
+    "file": "css/repeater.css",
+    "src": "src/js/repeater.css"
+  }
+}
