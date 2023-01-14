@@ -1,6 +1,36 @@
+
+/**
+ * Copyright (C) 2020 RayTech Hosting <royk@myraytech.net>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * @category   Library
+ * @package    WordPress
+ * @subpackage WPAbstractClasses
+ * @author     Kevin Roy <royk@myraytech.net>
+ * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
+ * @version    0.7.0
+ * @since      0.7.0
+ */
+
 import '../css/repeater.css';
 import jQuery from 'jquery';
 
+/**
+ * Add a set of fields on click,
+ */
 jQuery('body').on('click', '#repeater_add', function(e) {
 	e.preventDefault();
 	const meta = jQuery( this ).data('meta_key');
@@ -25,6 +55,12 @@ jQuery('body').on('click', '#repeater_add', function(e) {
 	
 });
 
+/**
+ * Grabs the highest id of all the repeated fields.
+ * 
+ * @param {String} name input name to look for.
+ * @returns {number}
+ */
 function getLastId(name: String): number {
 	const prefix: String = name.replace(/-blank/, '');
 	const inputs = jQuery('[id^="' + prefix + '"]');
@@ -39,6 +75,9 @@ function getLastId(name: String): number {
 	return Math.max(...loop_ids);
 }
 
+/**
+ * Removes a set of repeated fields.
+ */
 jQuery( 'body' ).on( 'click', '.close button', function() {
 	jQuery( this ).parent().parent()[0].remove();
 } );
