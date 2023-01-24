@@ -21,8 +21,8 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.3.5
- * @since      0.3.5
+ * @version    0.7.0
+ * @since      0.7.0
  */
 
 namespace RayTech\WPAbstractClasses\Fields\Inputs;
@@ -30,34 +30,6 @@ namespace RayTech\WPAbstractClasses\Fields\Inputs;
 use RayTech\WPAbstractClasses\Fields\AbstractInput;
 
 /**
- * Wysiwyg field class
+ * Placeholder class to validate the repeater input system.
  */
-class Wysiwyg extends AbstractInput {
-
-	/**
-	 * __construct
-	 *
-	 * @access public
-	 * @param  int    $id    Input id.
-	 * @param  string $name  Input name.
-	 * @param  string $value Input value.
-	 * @param  array  $attr  Rest of input attributes.
-	 * @return void
-	 */
-	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'wysiwyg' );
-		$this->setName( $name );
-		$this->setInputID( $id );
-		$this->setValue( $value );
-		$this->setAttributes( $attr );
-	}
-
-	/**
-	 * Rendering function for Wysiwyg
-	 *
-	 * @return void
-	 */
-	public function render() {
-		wp_editor( $this->getValue(), $this->getInputId(), $this->getAttributes() );
-	}
-}
+class Repeater extends AbstractInput {}

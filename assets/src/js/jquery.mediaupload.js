@@ -1,4 +1,4 @@
-jQuery( function( $ ) {
+$( function() {
 	/*
 	 * Select/Upload image(s) event
 	 */
