@@ -29,8 +29,6 @@ namespace RayTech\WPAbstractClasses\MetaBoxes;
 
 use Exception;
 use RayTech\WPAbstractClasses\Traits\PostType;
-use RayTech\WPAbstractClasses\Fields\Repeater;
-use RayTech\WPAbstractClasses\Utilities\Fields;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 
 /**
@@ -131,7 +129,7 @@ abstract class AbstractMetaBox {
 	 * @throws Exception Throws Exception when an HTML id is doubled by mistake.
 	 * @return void
 	 */
-	protected function addInput( string $type, string $label, string $id, array $attr = [] ) {
+	protected function addInput( $type = 'text', $label = '', $id = '', $attr = [] ) {
 		if ( isset( $this->config[ $id ] ) ) {
 			throw new Exception( 'An input with this id was already declared, please confirm your ids' );
 		}
@@ -149,28 +147,41 @@ abstract class AbstractMetaBox {
 	 * @return void
 	 */
 	public function meta_boxes( $post ) {
+
 		wp_nonce_field( basename( __FILE__ ), $this->post_type_name . 's_meta_nonce' );
 		echo '<div class="grid grid-cols-' . esc_attr( $this->getColumns() ) . '">';
 		foreach ( $this->getConfig() as $meta_key => $value ) {
-			echo '<p id="' . esc_attr( $meta_key ) . '">
+			echo '<p>
 				<label for="' . esc_attr( $this->post_type_class . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
-			$attr = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
-			$fqcn = Fields::getFqcn( $value['type'] );
-			if ( isset( $attr['fields'] ) && 'repeater' === $value['type'] ) {
-				Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'] );
-				echo '</div><hr /><button id="repeater_add" data-meta_key="' . esc_attr( $meta_key ) . '">';
-				printf(
-					/* translators: %s is replaced by an input label. */
-					esc_html__( 'Add %s', 'rtabstract' ),
-					esc_html( $value['label'] )
-				);
-				?></button>
-					<div id="rtabstract_repeater_<?php echo esc_attr( $meta_key ); ?>" class="hidden">
-						<?php Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'], true ); ?>
-					</div>
-				<?php
-			} elseif ( isset( $attr['repeat'] ) ) {
+			$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
+			$classes   = [
+				'checkbox' => 'Checkbox',
+				'color'    => 'Color',
+				'date'     => 'Date',
+				'datetime' => 'DateTime',
+				'email'    => 'Email',
+				'file'     => 'File',
+				'hidden'   => 'Hidden',
+				'media'    => 'Media',
+				'month'    => 'Month',
+				'number'   => 'Number',
+				'password' => 'Password',
+				'radio'    => 'Radio',
+				'range'    => 'Range',
+				'select'   => 'Select',
+				'tel'      => 'Telephone',
+				'text'     => 'Text',
+				'textarea' => 'TextArea',
+				'time'     => 'Time',
+				'url'      => 'Url',
+				'week'     => 'Week',
+				'wysiwyg'  => 'Wysiwyg',
+			];
+			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
+			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];
+			// TODO: Create conditional setup for fields.
+			if ( isset( $attr['repeat'] ) ) {
 				$repeat = $attr['repeat'] + 1;
 				unset( $attr['repeat'] );
 				for ( $loop = 1; $loop < $repeat; $loop++ ) {
@@ -181,11 +192,11 @@ abstract class AbstractMetaBox {
 				$input = new $fqcn( $this->post_type_class . $meta_key, $this->post_type_class . $meta_key, get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ), $attr );
 				$input->render();
 			}
+
 			echo '</p>';
+
 		}
-		if ( 'repeater' !== $value['type'] ) {
-			echo '</div>';
-		}
+		echo '</div>';
 	}
 
 	/**
