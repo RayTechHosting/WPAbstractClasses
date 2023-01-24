@@ -16,6 +16,12 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "m4tthumphrey/php-gitlab-api": "^11.8",
+        "guzzlehttp/guzzle": "^7.4",
+        "http-interop/http-factory-guzzle": "^1.2"
+    },
+    "scripts": {
+        "make-pot": "wp i18n make-pot . languages/wpabstractclasses.pot --domain=rtabstract"
     }
 }

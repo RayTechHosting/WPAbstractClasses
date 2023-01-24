@@ -72,9 +72,9 @@ abstract class AbstractPermalink {
 			update_option( $this->post_type_name . '_cat', sanitize_title_with_dashes( $_POST[ $this->post_type_name . '_cat' ] ) );
 		}
 		// phpcs:ignore
-		add_settings_field( $this->post_type_name . '_base', __( ucfirst( $this->getPostType() ) . 's single', 'basicstarter' ), [$this, 'permalinks_field_callback'], 'permalink', 'optional' );
+		add_settings_field( $this->post_type_name . '_base', __( ucfirst( $this->getPostType() ) . 's single', 'rtabstract' ), [$this, 'permalinks_field_callback'], 'permalink', 'optional' );
 		// phpcs:ignore
-		add_settings_field( $this->post_type_name . '_cat', __( ucfirst( $this->getPostType() ) . 's archive', 'basicstarter' ), [$this, 'permalinks_cat_field_callback'], 'permalink', 'optional' );
+		add_settings_field( $this->post_type_name . '_cat', __( ucfirst( $this->getPostType() ) . 's archive', 'rtabstract' ), [$this, 'permalinks_cat_field_callback'], 'permalink', 'optional' );
 	}
 
 	/**

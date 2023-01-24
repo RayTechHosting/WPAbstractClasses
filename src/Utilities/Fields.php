@@ -21,43 +21,29 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.3.5
- * @since      0.3.5
+ * @version    0.2.0
+ * @since      0.7.0
  */
 
-namespace RayTech\WPAbstractClasses\Fields\Inputs;
-
-use RayTech\WPAbstractClasses\Fields\AbstractInput;
+namespace RayTech\WPAbstractClasses\Utilities;
 
 /**
- * Wysiwyg field class
+ * Utility class for the input fields.
  */
-class Wysiwyg extends AbstractInput {
+class Fields {
 
 	/**
-	 * __construct
+	 * Returns the fully qualified class name of an input field.
 	 *
-	 * @access public
-	 * @param  int    $id    Input id.
-	 * @param  string $name  Input name.
-	 * @param  string $value Input value.
-	 * @param  array  $attr  Rest of input attributes.
-	 * @return void
+	 * @param string $type Input type.
+	 * @return string
 	 */
-	public function __construct( $id, $name, $value, $attr ) {
-		$this->setType( 'wysiwyg' );
-		$this->setName( $name );
-		$this->setInputID( $id );
-		$this->setValue( $value );
-		$this->setAttributes( $attr );
-	}
-
-	/**
-	 * Rendering function for Wysiwyg
-	 *
-	 * @return void
-	 */
-	public function render() {
-		wp_editor( $this->getValue(), $this->getInputId(), $this->getAttributes() );
+	public static function getFqcn( string $type ): string {
+		$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
+		$dir       = array_slice( scandir( __DIR__ . '/../Fields/Inputs/' ), 2 );
+		foreach ( $dir as $class ) {
+			$classes[ strtolower( substr( $class, 0, -4 ) ) ] = substr( $class, 0, -4 );
+		}
+		return $namespace . '\\' . $classes[ $type ];
 	}
 }
