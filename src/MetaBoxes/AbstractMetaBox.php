@@ -91,6 +91,16 @@ abstract class AbstractMetaBox {
 		$this->post_type_name  = RTABSTRACT_THEME_NAME . '_' . $this->getPostType();
 		add_action( 'load-post.php', [$this, 'add_boxes_setup'] );
 		add_action( 'load-post-new.php', [$this, 'add_boxes_setup'] );
+		add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue'] );
+	}
+
+	/**
+	 * Enqueuing styles for admin panel
+	 *
+	 * @return void
+	 */
+	public function admin_enqueue() {
+		wp_enqueue_style( 'rtabstract-style', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/css/style.css', [], '0.7.0' );
 	}
 
 	/**
@@ -161,13 +171,13 @@ abstract class AbstractMetaBox {
 				Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'] );
 				echo '</div><hr /><button id="repeater_add" data-meta_key="' . esc_attr( $meta_key ) . '">';
 				printf(
-					/* translators: %s is replaced by an input label. */
+				/* translators: %s is replaced by an input label. */
 					esc_html__( 'Add %s', 'rtabstract' ),
 					esc_html( $value['label'] )
 				);
 				?></button>
 					<div id="rtabstract_repeater_<?php echo esc_attr( $meta_key ); ?>" class="hidden">
-						<?php Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'], true ); ?>
+					<?php Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'], true ); ?>
 					</div>
 				<?php
 			} elseif ( isset( $attr['repeat'] ) ) {
