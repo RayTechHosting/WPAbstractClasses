@@ -29,7 +29,8 @@ export default defineConfig({
 			input: {
 				conditional: resolve(__dirname, 'src/js/conditional.ts'),
 				repeater: resolve(__dirname, 'src/js/repeater.ts'),
-				'jquery.mediaupload': resolve(__dirname, 'src/js/jquery.mediaupload.js')
+				'jquery.mediaupload': resolve(__dirname, 'src/js/jquery.mediaupload.js'),
+				style: resolve(__dirname, 'src/css/style.css')
 			},
 			output: {
 				entryFileNames: 'js/[name].js',
