@@ -7,13 +7,18 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-29T12:46:39+00:00\n"
+"POT-Creation-Date: 2023-02-06T03:23:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: rtabstract\n"
 
 #: src/Administration/AbstractPage.php:145
 msgid "Test text"
+msgstr ""
+
+#. translators: %s is replaced by an input label.
+#: src/MetaBoxes/AbstractMetaBox.php:175
+msgid "Add %s"
 msgstr ""
 
 #: src/PostTypes/Labels.php:286
