@@ -279,21 +279,25 @@ class Labels {
 	 */
 	public function __construct( string $post_type ) {
 		$this->setPostType( $post_type );
-		// phpcs:disable
-		$this->setName( _x( ucfirst( $this->getPostType() ) . 's', 'Post Type General Name', 'rtabstract' ) );
-		$this->setSingularName( _x( ucfirst( $this->getPostType() ), 'Post Type Singular Name', 'rtabstract' ) );
-		$this->setMenuName( __( ucfirst( $this->getPostType() ) . 's', 'rtabstract' ) );
-		$this->setParentItemColon( __( 'Parent ' . ucfirst( $this->getPostType() ), 'rtabstract' ) );
-		$this->setAllItems( __( 'All ' . ucfirst( $this->getPostType() ) . 's', 'rtabstract' ) );
-		$this->setViewItem( __( 'View ' . ucfirst( $this->getPostType() ), 'rtabstract' ) );
-		$this->setAddNewItem( __( 'Add New ' . ucfirst( $this->getPostType() ), 'rtabstract' ) );
-		$this->setAddNew( __( 'Add ' . ucfirst( $this->getPostType() ), 'rtabstract' ) );
-		$this->setEditItem( __( 'Edit ' . ucfirst( $this->getPostType() ), 'rtabstract' ) );
-		// $this->setUpdateItem(__( 'Update ' . ucfirst( $this->getPostType() ), 'rtabstract' ));
-		$this->setSearchItems( __( 'Search ' . ucfirst( $this->getPostType() ), 'rtabstract' ) );
+		$this->setName( ucfirst( $this->getPostType() ) . 's' );
+		$this->setSingularName( ucfirst( $this->getPostType() ) );
+		$this->setMenuName( ucfirst( $this->getPostType() ) );
+		/* translators:  Post type name */
+		$this->setParentItemColon( sprintf( __( 'Parent %1$s ', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
+		/* translators:  Post type name */
+		$this->setAllItems( sprintf( __( 'All %1$ss', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
+		/* translators:  Post type name */
+		$this->setViewItem( sprintf( __( 'View %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
+		/* translators:  Post type name */
+		$this->setAddNewItem( sprintf( __( 'Add new %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
+		/* translators:  Post type name */
+		$this->setAddNew( sprintf( __( 'Add %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
+		/* translators:  Post type name */
+		$this->setEditItem( sprintf( __( 'Edit %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
+		/* translators:  Post type name */
+		$this->setSearchItems( sprintf( __( 'Search %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) ) );
 		$this->setNotFound( __( 'Not Found', 'rtabstract' ) );
 		$this->setNotFoundInTrash( __( 'Not found in Trash', 'rtabstract' ) );
-		//phpcs:enable
 	}
 
 	/**

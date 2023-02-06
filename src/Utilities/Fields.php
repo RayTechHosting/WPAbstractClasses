@@ -46,4 +46,35 @@ class Fields {
 		}
 		return $namespace . '\\' . $classes[ $type ];
 	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return array
+	 */
+	public static function getFieldList() {
+		return [
+			'checkbox' => 'Checkbox',
+			'color'    => 'Color',
+			'date'     => 'Date',
+			'datetime' => 'DateTime',
+			'email'    => 'Email',
+			'file'     => 'File',
+			'hidden'   => 'Hidden',
+			'media'    => 'Media',
+			'month'    => 'Month',
+			'number'   => 'Number',
+			'password' => 'Password',
+			'radio'    => 'Radio',
+			'range'    => 'Range',
+			'select'   => 'Select',
+			'tel'      => 'Telephone',
+			'text'     => 'Text',
+			'textarea' => 'TextArea',
+			'time'     => 'Time',
+			'url'      => 'Url',
+			'week'     => 'Week',
+			'wysiwyg'  => 'Wysiwyg',
+		];
+	}
 }

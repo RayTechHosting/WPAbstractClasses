@@ -27,6 +27,7 @@
 
 namespace RayTech\WPAbstractClasses\PostTypes;
 
+use RayTech\WPAbstractClasses\Traits\Configuration;
 use RayTech\WPAbstractClasses\Traits\PostType;
 
 /**
@@ -35,7 +36,7 @@ use RayTech\WPAbstractClasses\Traits\PostType;
  * @abstract
  */
 abstract class AbstractPostType {
-	use PostType;
+	use PostType, Configuration;
 
 	/**
 	 * Post type name slug with the prefix theme name RTABSTRACT_THEME_NAME constant

@@ -26,13 +26,13 @@
   "_jquery.js": {
     "file": "js/jquery.js"
   },
-  "src/js/repeater.css": {
-    "file": "css/repeater.css",
-    "src": "src/js/repeater.css"
-  },
   "src/css/style.css": {
     "file": "css/style.css",
     "src": "src/css/style.css",
     "isEntry": true
+  },
+  "src/js/repeater.css": {
+    "file": "css/repeater.css",
+    "src": "src/js/repeater.css"
   }
 }
