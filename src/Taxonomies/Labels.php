@@ -255,7 +255,7 @@ class Labels {
 	 * @param string $type Taxonomy Type.
 	 */
 	public function __construct( $post_type, $type ) {
-		$this->types = [
+		$types = [
 			'category' => [
 				'singular' => 'Category',
 				'plural'   => 'Categories',
@@ -267,18 +267,24 @@ class Labels {
 		];
 		$this->setPostType( $post_type )->setType( $type );
 
-		// phpcs:disable
-		$this->setName( _x( ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'taxonomy general name', 'rtabstract' ) );
-		$this->setSingularName( _x( ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'taxonomy singular name', 'rtabstract' ) );
-		$this->setSearchItems( __( 'Search ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'rtabstract' ) );
-		$this->setAllItems( __( 'All ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['plural'], 'rtabstract' ) );
-		$this->setParentItem( __( 'Parent ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'rtabstract' ) );
-		$this->setParentItemColon( __( 'Parent ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'] . ':', 'rtabstract' ) );
-		$this->setEditItem( __( 'Edit ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'rtabstract' ) );
-		$this->setUpdateItem( __( 'Update ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'rtabstract' ) );
-		$this->setAddNewItem( __( 'Add New ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'rtabstract' ) );
-		$this->setNewItemName( __( 'New ' . ucfirst( $this->getPostType() ) . ' ' . $this->types[ $this->getType() ]['singular'], 'rtabstract' ) );
-		//phpcs:enable
+		$this->setName( ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['plural'] );
+		$this->setSingularName( ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] );
+		/* translators:  Post type name and taxonomy type */
+		$this->setSearchItems( sprintf( __( 'Search %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['plural'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setAllItems( sprintf( __( 'All %1$ss', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['plural'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setParentItem( sprintf( __( 'Parent %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setParentItemColon( sprintf( __( 'Parent %1$s ', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setEditItem( sprintf( __( 'Edit %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setUpdateItem( sprintf( __( 'Update %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setAddNewItem( sprintf( __( 'Add new %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] ) );
+		/* translators:  Post type name and taxonomy type */
+		$this->setNewItemName( sprintf( __( 'New %1$s', 'rtabstract' ), ucfirst( $this->getPostType() ) . ' ' . $types[ $this->getType() ]['singular'] ) );
 	}
 
 	/**

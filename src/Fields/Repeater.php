@@ -149,32 +149,56 @@ class Repeater {
 			}
 			echo '<hr /></div>';
 		} else {
-			foreach ( $values as $value ) {
+			if ( empty( $values ) ) {
 				echo '<div>';
 				echo '<div class="float-right close"><button type="button">X</button></div>';
-				if ( is_array( $value ) ) {
-					foreach ( $fields as $input_key => $field ) {
-						$fqcn = Utils::getFqcn( $field['type'] );
-						if ( null !== $field['attr'] ) {
-							$attr = $field['attr'];
-						} else {
-							$attr = null;
-						}
-
-						echo '<p>
-						<label for="' . esc_attr( $name . '-' . $input_key . '-' . $loop ) . '">' . esc_html( $field['label'] ) . '</label>';
-						$input = new $fqcn(
-							$name . '-' . $input_key . '-' . $loop,
-							$name . '[' . $loop . '][' . $input_key . ']',
-							$value[ $input_key ],
-							$attr
-						);
-						$input->render();
-						echo '</p>';
+				foreach ( $fields as $input_key => $field ) {
+					$fqcn = Utils::getFqcn( $field['type'] );
+					if ( null !== $field['attr'] ) {
+						$attr = array_merge( $field['attr'], ['data-input-key' => $input_key] );
+					} else {
+						$attr = ['data-input-key' => $input_key];
 					}
+					echo '<div>
+					<label for="' . esc_attr( $name . '-' . $input_key ) . '-0">' . esc_html( $field['label'] ) . '</label>';
+					$input = new $fqcn(
+						$name . '-' . $input_key . '-0',
+						$name . '[0][' . $input_key . ']',
+						'',
+						$attr
+					);
+					$input->render();
+					echo '</div>';
 				}
 				echo '<hr /></div>';
-				$loop++;
+			} else {
+				foreach ( $values as $value ) {
+					echo '<div>';
+					echo '<div class="float-right close"><button type="button">X</button></div>';
+					if ( is_array( $value ) ) {
+						foreach ( $fields as $input_key => $field ) {
+							$fqcn = Utils::getFqcn( $field['type'] );
+							if ( null !== $field['attr'] ) {
+								$attr = $field['attr'];
+							} else {
+								$attr = null;
+							}
+
+							echo '<div>
+							<label for="' . esc_attr( $name . '-' . $input_key . '-' . $loop ) . '">' . esc_html( $field['label'] ) . '</label>';
+							$input = new $fqcn(
+								$name . '-' . $input_key . '-' . $loop,
+								$name . '[' . $loop . '][' . $input_key . ']',
+								$value[ $input_key ],
+								$attr
+							);
+							$input->render();
+							echo '</div>';
+						}
+					}
+					echo '<hr /></div>';
+					$loop++;
+				}
 			}
 		}
 	}

@@ -27,11 +27,15 @@
 
 namespace RayTech\WPAbstractClasses\Administration;
 
+use RayTech\WPAbstractClasses\Traits\Configuration;
+use RayTech\WPAbstractClasses\Utilities\Fields;
+
 /**
  * Wrapper class for WordPress options
  */
 abstract class AbstractPage {
 
+	use Configuration;
 	/**
 	 * Parent slugs for submenu pages
 	 *
@@ -104,6 +108,13 @@ abstract class AbstractPage {
 	private $position;
 
 	/**
+	 * Parent slug
+	 *
+	 * @var string
+	 */
+	private $parent;
+
+	/**
 	 * Constructor method
 	 *
 	 * @return void
@@ -120,33 +131,10 @@ abstract class AbstractPage {
 	public function addPages() {
 		$page = $this->getConfig();
 		if ( 'top' === $page['parent'] ) {
-			add_menu_page( $page['page_title'], $page['menu_title'], $page['capability'], $page['callable'], $page['icon'], $page['position'] );
+			add_menu_page( $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['callback'], $page['icon_url'], $page['position'] );
 		} else {
-			add_submenu_page( $this->createParentSlug( $page['parent'] ), $page['page_name'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['position'] );
+			add_submenu_page( $this->createParentSlug( $page['parent'] ), $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], $page['callback'], $page['position'] );
 		}
-	}
-
-	/**
-	 * Returns an array of config of where you wants pages added
-	 *
-	 * @return array
-	 */
-	protected function getConfig() {
-		return [
-			'parent'     => 'custom',
-			'post_type'  => 'test',
-			'page_name'  => 'Test',
-			'menu_title' => 'Test',
-			'capability' => 'manage_options',
-			'menu_slug'  => 'test_dash',
-			'position'   => 10,
-			'fields'     => [
-				'test_input' => [
-					'label' => __( 'Test text', 'rtabstract' ),
-					'type'  => 'text',
-				],
-			],
-		];
 	}
 
 	/**
@@ -154,7 +142,7 @@ abstract class AbstractPage {
 	 *
 	 * @param string $parent    Parent slug config choice.
 	 * @param string $post_type Post type required when using custom slug.
-	 * @return void
+	 * @return string
 	 */
 	protected function createParentSlug( $parent, $post_type = '' ) {
 		/**
@@ -167,7 +155,7 @@ abstract class AbstractPage {
 		if ( 'custom' === $parent ) {
 			$slug .= $post_type;
 		}
-
+		return $slug;
 	}
 
 	/**
@@ -184,33 +172,9 @@ abstract class AbstractPage {
 			echo '<p>
 				<label for="' . esc_attr( $page['name'] . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
-			$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
-			$classes   = [
-				'checkbox' => 'Checkbox',
-				'color'    => 'Color',
-				'date'     => 'Date',
-				'datetime' => 'DateTime',
-				'email'    => 'Email',
-				'file'     => 'File',
-				'hidden'   => 'Hidden',
-				'media'    => 'Media',
-				'month'    => 'Month',
-				'number'   => 'Number',
-				'password' => 'Password',
-				'radio'    => 'Radio',
-				'range'    => 'Range',
-				'select'   => 'Select',
-				'tel'      => 'Telephone',
-				'text'     => 'Text',
-				'textarea' => 'TextArea',
-				'time'     => 'Time',
-				'url'      => 'Url',
-				'week'     => 'Week',
-				'wysiwyg'  => 'Wysiwyg',
-			];
-			$attr      = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
-			$fqcn      = $namespace . '\\' . $classes[ $value['type'] ];
-			$input     = new $fqcn( esc_attr( $page['name'] . $meta_key ), esc_attr( $page['name'] . $meta_key ), esc_attr( Option::get( $meta_key ) ), $attr );
+			$attr  = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
+			$fqcn  = Fields::getFqcn( $value['type'] );
+			$input = new $fqcn( esc_attr( $page['name'] . $meta_key ), esc_attr( $page['name'] . $meta_key ), esc_attr( Option::get( $meta_key ) ), $attr );
 			$input->render();
 
 			echo '</p>';
@@ -368,6 +332,28 @@ abstract class AbstractPage {
 	 */
 	public function setPosition( $position ) {
 		$this->position = $position;
+
+		return $this;
+	}
+
+	/**
+	 * Get the position in the menu order this item should appear.
+	 *
+	 * @return  string
+	 */
+	public function getParentPage() {
+		return $this->parent;
+	}
+
+	/**
+	 * Set the position in the menu order this item should appear.
+	 *
+	 * @param  string $parent  The position in the menu order this item should appear.
+	 *
+	 * @return  self
+	 */
+	public function setParentPage( $parent ) {
+		$this->parent = $parent;
 
 		return $this;
 	}

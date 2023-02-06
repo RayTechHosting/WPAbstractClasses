@@ -32,6 +32,7 @@ use RayTech\WPAbstractClasses\Traits\PostType;
 use RayTech\WPAbstractClasses\Fields\Repeater;
 use RayTech\WPAbstractClasses\Utilities\Fields;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
+use RayTech\WPAbstractClasses\Utilities\Paths;
 
 /**
  * Meta box Abstract class
@@ -92,15 +93,37 @@ abstract class AbstractMetaBox {
 		add_action( 'load-post.php', [$this, 'add_boxes_setup'] );
 		add_action( 'load-post-new.php', [$this, 'add_boxes_setup'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue'] );
+		add_filter( 'script_loader_tag', [$this, 'add_type_attribute'], 10, 3 );
 	}
 
 	/**
-	 * Enqueuing styles for admin panel
+	 * Filter to load javascripts as module.
+	 *
+	 * @param string $tag    HTML script tag string.
+	 * @param string $handle JS loading handle.
+	 * @param string $src   URL of loading script.
+	 * @return string
+	 */
+	public function add_type_attribute( $tag, $handle, $src ) {
+		// if not your script, do nothing and return original $tag.
+		if ( 'rtabstract-conditional' !== $handle ) {
+			return $tag;
+		}
+		// change the script tag by adding type="module" and return it.
+		// phpcs:ignore
+		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+		return $tag;
+	}
+
+	/**
+	 * Enqueues scripts and styles for the admin panel
 	 *
 	 * @return void
 	 */
 	public function admin_enqueue() {
+		wp_enqueue_script( 'rtabstract-conditional', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/js/conditional.js', ['jquery'], '0.7.0', true );
 		wp_enqueue_style( 'rtabstract-style', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/css/style.css', [], '0.7.0' );
+		wp_enqueue_script( 'rtabstract-media', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/js/jquery.mediaupload.js', ['jquery'], '0.7.0', true );
 	}
 
 	/**
@@ -159,25 +182,27 @@ abstract class AbstractMetaBox {
 	 * @return void
 	 */
 	public function meta_boxes( $post ) {
+
 		wp_nonce_field( basename( __FILE__ ), $this->post_type_name . 's_meta_nonce' );
-		echo '<div class="grid grid-cols-' . esc_attr( $this->getColumns() ) . '">';
+		echo '<div class="grid grid-cols-' . esc_attr( $this->getColumns() ) . ' gap-2">';
 		foreach ( $this->getConfig() as $meta_key => $value ) {
-			echo '<p id="' . esc_attr( $meta_key ) . '">
+			echo '<div id="' . esc_attr( $this->post_type_class . $meta_key ) . '">
 				<label for="' . esc_attr( $this->post_type_class . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
+
 			$attr = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn = Fields::getFqcn( $value['type'] );
+			if ( isset( $attr['conditions'] ) ) {
+				echo "<div class='condition' data-conditions='" . esc_js( addslashes( wp_json_encode( $attr['conditions'] ) ) ) . "' >";
+			}
 			if ( isset( $attr['fields'] ) && 'repeater' === $value['type'] ) {
 				Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'] );
-				echo '</div><hr /><button id="repeater_add" data-meta_key="' . esc_attr( $meta_key ) . '">';
-				printf(
-				/* translators: %s is replaced by an input label. */
-					esc_html__( 'Add %s', 'rtabstract' ),
-					esc_html( $value['label'] )
-				);
-				?></button>
-					<div id="rtabstract_repeater_<?php echo esc_attr( $meta_key ); ?>" class="hidden">
-					<?php Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'], true ); ?>
+				echo '<button class="repeater_add" data-meta_key="' . esc_attr( $this->post_type_class . $meta_key ) . '">';
+				/* translators: button for adding a repeated set of fields */
+				printf( esc_html__( 'Add %s', 'rtabstract' ), esc_html( $value['label'] ) );
+				?></button></div>
+					<div id="rtabstract_repeater_<?php echo esc_attr( $this->post_type_class . $meta_key ); ?>" class="hidden">
+						<?php Repeater::render( $post->ID, $this->getPostType(), $meta_key, $attr['fields'], true ); ?>
 					</div>
 				<?php
 			} elseif ( isset( $attr['repeat'] ) ) {
@@ -191,7 +216,8 @@ abstract class AbstractMetaBox {
 				$input = new $fqcn( $this->post_type_class . $meta_key, $this->post_type_class . $meta_key, get_post_meta( $post->ID, $this->post_type_class . $meta_key, true ), $attr );
 				$input->render();
 			}
-			echo '</p>';
+
+			echo '</div>';
 		}
 		if ( 'repeater' !== $value['type'] ) {
 			echo '</div>';
