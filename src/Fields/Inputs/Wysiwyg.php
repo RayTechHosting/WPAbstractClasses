@@ -58,6 +58,6 @@ class Wysiwyg extends AbstractInput {
 	 * @return void
 	 */
 	public function render() {
-		wp_editor( $this->getValue(), $this->getInputId(), $this->getAttributes() );
+		wp_editor( $this->getValue(), $this->getInputId() );
 	}
 }

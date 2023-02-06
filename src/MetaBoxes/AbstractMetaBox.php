@@ -29,8 +29,6 @@ namespace RayTech\WPAbstractClasses\MetaBoxes;
 
 use Exception;
 use RayTech\WPAbstractClasses\Traits\PostType;
-use RayTech\WPAbstractClasses\Fields\Repeater;
-use RayTech\WPAbstractClasses\Utilities\Fields;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 use RayTech\WPAbstractClasses\Utilities\Paths;
 
@@ -164,7 +162,7 @@ abstract class AbstractMetaBox {
 	 * @throws Exception Throws Exception when an HTML id is doubled by mistake.
 	 * @return void
 	 */
-	protected function addInput( string $type, string $label, string $id, array $attr = [] ) {
+	protected function addInput( $type = 'text', $label = '', $id = '', $attr = [] ) {
 		if ( isset( $this->config[ $id ] ) ) {
 			throw new Exception( 'An input with this id was already declared, please confirm your ids' );
 		}
@@ -182,7 +180,6 @@ abstract class AbstractMetaBox {
 	 * @return void
 	 */
 	public function meta_boxes( $post ) {
-
 		wp_nonce_field( basename( __FILE__ ), $this->post_type_name . 's_meta_nonce' );
 		echo '<div class="grid grid-cols-' . esc_attr( $this->getColumns() ) . ' gap-2">';
 		foreach ( $this->getConfig() as $meta_key => $value ) {
