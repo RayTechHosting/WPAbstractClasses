@@ -27,6 +27,7 @@
 
 namespace RayTech\WPAbstractClasses\Taxonomies;
 
+use RayTech\WPAbstractClasses\Traits\Configuration;
 use RayTech\WPAbstractClasses\Traits\PostType;
 
 /**
@@ -37,7 +38,7 @@ use RayTech\WPAbstractClasses\Traits\PostType;
  */
 abstract class AbstractTaxonomy {
 
-	use PostType;
+	use PostType, Configuration;
 
 	/**
 	 * Type strings array
@@ -230,23 +231,6 @@ abstract class AbstractTaxonomy {
 	 */
 	public function registerTaxonomy() {
 		register_taxonomy( $this->getPostType() . '_' . $this->getType(), $this->getPostType(), $this->getConfig() );
-	}
-
-	/**
-	 * This methods creates the array for the configuration.
-	 *
-	 * @access protected
-	 * @link https://developer.wordpress.org/reference/functions/register_taxonomy/#arguments
-	 * @return array
-	 */
-	protected function getConfig() {
-		$config = [];
-		foreach ( $this as $key => $value ) {
-			if ( ! empty( $value ) ) {
-				$config[ $key ] = $value;
-			}
-		}
-		return $config;
 	}
 
 	/**

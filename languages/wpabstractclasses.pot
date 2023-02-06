@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-02-06T03:23:33+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: rtabstract\n"
+
+#: src/Administration/AbstractPage.php:145
+msgid "Test text"
+msgstr ""
+
+#. translators: %s is replaced by an input label.
+#: src/MetaBoxes/AbstractMetaBox.php:175
+msgid "Add %s"
+msgstr ""
+
+#: src/PostTypes/Labels.php:286
+#: src/Taxonomies/Labels.php:275
+#: src/Taxonomies/Labels.php:276
+msgid "Parent "
+msgstr ""
+
+#: src/PostTypes/Labels.php:287
+#: src/Taxonomies/Labels.php:274
+msgid "All "
+msgstr ""
+
+#: src/PostTypes/Labels.php:288
+msgid "View "
+msgstr ""
+
+#: src/PostTypes/Labels.php:289
+#: src/Taxonomies/Labels.php:279
+msgid "Add New "
+msgstr ""
+
+#: src/PostTypes/Labels.php:290
+msgid "Add "
+msgstr ""
+
+#: src/PostTypes/Labels.php:291
+#: src/Taxonomies/Labels.php:277
+msgid "Edit "
+msgstr ""
+
+#: src/PostTypes/Labels.php:293
+#: src/Taxonomies/Labels.php:273
+msgid "Search "
+msgstr ""
+
+#: src/PostTypes/Labels.php:294
+msgid "Not Found"
+msgstr ""
+
+#: src/PostTypes/Labels.php:295
+msgid "Not found in Trash"
+msgstr ""
+
+#: src/Taxonomies/Labels.php:278
+msgid "Update "
+msgstr ""
+
+#: src/Taxonomies/Labels.php:280
+msgid "New "
+msgstr ""

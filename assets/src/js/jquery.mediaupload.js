@@ -2,7 +2,7 @@ jQuery( function( $ ) {
 	/*
 	 * Select/Upload image(s) event
 	 */
-	$( '.rtabstract_upload_image_button', ).on( 'click', function( e ) {
+	$( '.rtabstract_upload_image_button' ).on( 'click', function( e ) {
 		e.preventDefault();
 
 		const button = $( this ),

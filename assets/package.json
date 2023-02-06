@@ -10,6 +10,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@types/jquery": "^3.5.14",
+    "@types/node": "^18.11.18",
     "@wordpress/eslint-plugin": "^12.3.0",
     "@wordpress/stylelint-config": "^20.0.2",
     "autoprefixer": "^10.4.7",
