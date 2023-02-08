@@ -27,6 +27,7 @@
 
 namespace RayTech\WPAbstractClasses\Administration;
 
+use Exception;
 use RayTech\WPAbstractClasses\Traits\Configuration;
 use RayTech\WPAbstractClasses\Utilities\Fields;
 
@@ -36,6 +37,7 @@ use RayTech\WPAbstractClasses\Utilities\Fields;
 abstract class AbstractPage {
 
 	use Configuration;
+
 	/**
 	 * Parent slugs for submenu pages
 	 *
@@ -54,6 +56,7 @@ abstract class AbstractPage {
 		'settings'   => 'options-general.php',
 		'network'    => 'settings.php',
 		'custom'     => 'edit.php?post_type=',
+		'custom_sub' => '',
 	];
 
 	/**
@@ -115,6 +118,20 @@ abstract class AbstractPage {
 	private $parent;
 
 	/**
+	 * Sub parent slug
+	 *
+	 * @var string
+	 */
+	private $parent_sub;
+
+	/**
+	 * Fields configuration Array
+	 *
+	 * @var array
+	 */
+	private $fields;
+
+	/**
 	 * Constructor method
 	 *
 	 * @return void
@@ -154,8 +171,31 @@ abstract class AbstractPage {
 
 		if ( 'custom' === $parent ) {
 			$slug .= $post_type;
+		} elseif ( 'custom_sub' === $parent ) {
+			$slug .= $this->parent_sub;
 		}
 		return $slug;
+	}
+
+	/**
+	 * Adds an input to the page fields configuration.
+	 *
+	 * @param string $type HTML input type.
+	 * @param string $label Sets the label of the input.
+	 * @param string $id    Sets the HTML attributes id and name with this variable linking it to the label.
+	 * @param array  $attr An array of all the other possible HTML attributes.
+	 * @throws Exception Throws Exception when an HTML id is doubled by mistake.
+	 * @return void
+	 */
+	protected function addInput( $type = 'text', $label = '', $id = '', $attr = [] ) {
+		if ( isset( $this->fields[ $id ] ) ) {
+			throw new Exception( 'An input with this id was already declared, please confirm your ids' );
+		}
+		$this->fields[ $id ] = [
+			'type'  => $type,
+			'label' => $label,
+			'attr'  => $attr,
+		];
 	}
 
 	/**
@@ -165,21 +205,33 @@ abstract class AbstractPage {
 	 * @return void
 	 */
 	public function render_fields( $page ) {
-
-		wp_nonce_field( basename( __FILE__ ), $page['name'] . 's_meta_nonce' );
-
+		$page       = $this->getConfig();
+		$nonce_name = $page['page_title'] . '_meta_nonce';
+		if ( isset( $_GET['action'] ) && 'save' === $_GET['action'] ) {
+			if ( isset( $_POST[ $nonce_name ] ) && is_int( wp_verify_nonce( $_POST[ $nonce_name ], basename( __FILE__ ) ) ) ) {
+				foreach ( $_POST as $data => $value ) {
+					$option = new Option();
+					$option->setName( $data )->setvalue( $value );
+					$option->save();
+				}
+			}
+		}
+		echo '<form action="?page=stats-settings&action=save" method="post">';
+		wp_nonce_field( basename( __FILE__ ), $nonce_name );
 		foreach ( $page['fields'] as $meta_key => $value ) {
 			echo '<p>
-				<label for="' . esc_attr( $page['name'] . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
+				<label for="' . esc_attr( $page['page_title'] . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
 			$attr  = ( ! empty( $value['attr'] ) ) ? $value['attr'] : [];
 			$fqcn  = Fields::getFqcn( $value['type'] );
-			$input = new $fqcn( esc_attr( $page['name'] . $meta_key ), esc_attr( $page['name'] . $meta_key ), esc_attr( Option::get( $meta_key ) ), $attr );
+			$input = new $fqcn( esc_attr( $page['page_title'] . '-' . $meta_key ), esc_attr( $page['page_title'] . '-' . $meta_key ), Option::get( $page['page_title'] . '-' . $meta_key ), $attr );
 			$input->render();
-
 			echo '</p>';
 
 		}
+		echo '<button type="submit">Save</button>';
+		echo '</form>';
+
 	}
 
 	/**
@@ -348,12 +400,13 @@ abstract class AbstractPage {
 	/**
 	 * Set the position in the menu order this item should appear.
 	 *
-	 * @param  string $parent  The position in the menu order this item should appear.
-	 *
-	 * @return  self
+	 * @param  string $parent The position in the menu order this item should appear.
+	 * @param  string $sub    The custom page parent slug.
+	 * @return self
 	 */
-	public function setParentPage( $parent ) {
-		$this->parent = $parent;
+	public function setParentPage( string $parent, string $sub = '' ) {
+		$this->parent     = $parent;
+		$this->parent_sub = $sub;
 
 		return $this;
 	}
