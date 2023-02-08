@@ -108,7 +108,7 @@ class Option {
 		$value  = get_option( $name, $default );
 		$option = new Option();
 		$option->setName( $name )->setValue( $value );
-		return $option;
+		return $option->getValue();
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Option {
 	 * @param  string|bool $autoload Autload the option on WordPress start-up.
 	 * @return bool
 	 */
-	public function save( $autoload ) {
+	public function save( $autoload = false ) {
 		return update_option( $this->name, $this->value, $autoload );
 	}
 
