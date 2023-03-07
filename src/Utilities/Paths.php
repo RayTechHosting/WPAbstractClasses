@@ -33,15 +33,31 @@ namespace RayTech\WPAbstractClasses\Utilities;
 class Paths {
 
 	/**
+	 * Type of implementation.(theme or plugin)
+	 *
+	 * @var string
+	 */
+	private $path_type;
+
+	/**
+	 * Constructor method
+	 *
+	 * @param string $path_type Type of implementation.
+	 */
+	public function __construct( string $path_type ) {
+		$this->path_type = $path_type;
+	}
+
+	/**
 	 * Creates the right path depending on the usage type (plugin, theme).
 	 * This is set with the constant RTABSTRACT_USAGE_TYPE with the value of plugin or theme.
 	 *
 	 * @return string
 	 */
 	public function getAssetsPath() {
-		if ( 'plugin' === RTABSTRACT_USAGE_TYPE ) {
+		if ( 'plugin' === $this->path_type ) {
 			return plugin_dir_url( __FILE__ ) . '/../../../assets';
-		} elseif ( 'theme' === RTABSTRACT_USAGE_TYPE ) {
+		} elseif ( 'theme' === $this->path_type ) {
 			return get_stylesheet_directory_uri() . '/vendor/raytechhosting/wpabstractclasses/assets';
 		}
 	}
