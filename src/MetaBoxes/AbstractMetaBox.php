@@ -119,9 +119,10 @@ abstract class AbstractMetaBox {
 	 * @return void
 	 */
 	public function admin_enqueue() {
-		wp_enqueue_script( 'rtabstract-conditional', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/js/conditional.js', ['jquery'], '0.7.0', true );
-		wp_enqueue_style( 'rtabstract-style', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/css/style.css', [], '0.7.0' );
-		wp_enqueue_script( 'rtabstract-media', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/js/jquery.mediaupload.js', ['jquery'], '0.7.0', true );
+		$path = new Paths();
+		wp_enqueue_script( 'rtabstract-conditional', $path->getAssetsPath() . '/dist/js/conditional.js', ['jquery'], '0.7.0', true );
+		wp_enqueue_style( 'rtabstract-style', $path->getAssetsPath() . '/dist/css/style.css', [], '0.7.0' );
+		wp_enqueue_script( 'rtabstract-media', $path->getAssetsPath() . '/dist/js/jquery.mediaupload.js', ['jquery'], '0.7.0', true );
 	}
 
 	/**

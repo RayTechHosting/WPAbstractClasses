@@ -28,6 +28,7 @@
 namespace RayTech\WPAbstractClasses\Fields\Inputs;
 
 use RayTech\WPAbstractClasses\Fields\AbstractInput;
+use RayTech\WPAbstractClasses\Utilities\Paths;
 
 /**
  * Media input
@@ -49,7 +50,17 @@ class Media extends AbstractInput {
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setAttributes( $attr );
-		wp_enqueue_script( 'rtabstract-media', plugin_dir_url( __FILE__ ) . '../../../assets/dist/js/jquery.mediaupload.js', ['jquery'], '0.1.0', true );
+		add_action( 'admin_enqueue_scripts', [$this, 'enqueue_scripts'] );
+	}
+
+	/**
+	 * Enqueues javascript and css files.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		$path = new Paths();
+		wp_enqueue_script( 'rtabstract-media', $path->getAssetsPath() . '/dist/js/jquery.mediaupload.js', ['jquery'], '0.1.0', true );
 	}
 
 	/**
