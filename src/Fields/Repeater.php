@@ -30,6 +30,7 @@ namespace RayTech\WPAbstractClasses\Fields;
 use Exception;
 use RayTech\WPAbstractClasses\Utilities\Fields as Utils;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
+use RayTech\WPAbstractClasses\Utilities\Paths;
 
 /**
  * Class for making a set of input able to be repeated by the user for multiple things.
@@ -76,8 +77,9 @@ class Repeater {
 	 * @return void
 	 */
 	public function admin_enqueue() {
-		wp_enqueue_script( 'extra-repeater', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/js/repeater.js', ['jquery'], '0.1.0', true );
-		wp_enqueue_style( 'extra-repeater', plugin_dir_url( __FILE__ ) . '/../../../assets/dist/css/repeater.css', [], '0.7.0', 'all' );
+		$path = new Paths();
+		wp_enqueue_script( 'extra-repeater', $path->getAssetsPath() . '/dist/js/repeater.js', ['jquery'], '0.1.0', true );
+		wp_enqueue_style( 'extra-repeater', $path->getAssetsPath() . '/dist/css/repeater.css', [], '0.7.0', 'all' );
 	}
 
 	/**
