@@ -45,6 +45,6 @@ class Configuration {
 	 * Parsing the config file from root of theme or plugin.
 	 */
 	public function __construct() {
-		$this->data = Yaml::parseFile( '../../.rtabstract.yml' );
+		$this->data = Yaml::parseFile( __DIR__ . '/../../../../../.rtabstract.yml' );
 	}
 }
