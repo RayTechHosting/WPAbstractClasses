@@ -21,44 +21,25 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.6.0
- * @since      0.1.0
+ * @version    0.2.0
+ * @since      0.7.0
  */
 
 namespace RayTech\WPAbstractClasses\Utilities;
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
- * This utility class will help with the paths for this packages.
+ * Configuration class for parsing the file .rtabstract.yml at root of theme or plugin
  */
-class Paths {
+class Configuration {
 
 	/**
-	 * Configuration Array from file
+	 * Parsing the config file from root of theme or plugin
 	 *
-	 * @var mixed
-	 */
-	public $config;
-
-	/**
-	 * Constructor method
-	 *
-	 * @return void
+	 * @return array
 	 */
 	public function __construct() {
-		$this->config = new Configuration();
-	}
-
-	/**
-	 * Creates the right path depending on the usage type (plugin, theme).
-	 * This is set with the constant RTABSTRACT_USAGE_TYPE with the value of plugin or theme.
-	 *
-	 * @return string
-	 */
-	public function getAssetsPath() {
-		if ( 'plugin' === $this->config['implementation_type'] ) {
-			return plugin_dir_url( __FILE__ ) . '/../../../assets';
-		} elseif ( 'theme' === $this->config['implementation_type'] ) {
-			return get_stylesheet_directory_uri() . '/vendor/raytechhosting/wpabstractclasses/assets';
-		}
+		return Yaml::parseFile( '../../.rtabstract.yml' );
 	}
 }
