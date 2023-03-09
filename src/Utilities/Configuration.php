@@ -27,23 +27,19 @@
 
 namespace RayTech\WPAbstractClasses\Utilities;
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
- * Utility class for the input fields.
+ * Configuration class for parsing the file .rtabstract.yml at root of theme or plugin
  */
-class Fields {
+class Configuration {
 
 	/**
-	 * Returns the fully qualified class name of an input field.
+	 * Parsing the config file from root of theme or plugin
 	 *
-	 * @param string $type Input type.
-	 * @return string
+	 * @return array
 	 */
-	public static function getFqcn( $type ) {
-		$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
-		$dir   = array_slice( scandir( __DIR__ . '/../Fields/Inputs/' ), 2 );
-		foreach ( $dir as $class ) {
-			$classes[ strtolower( substr( $class, 0, -4 ) ) ] = substr( $class, 0, -4 );
-		}
-		return $namespace . '\\' . $classes[ $type ];
+	public function __construct() {
+		return Yaml::parseFile( '../../.rtabstract.yml' );
 	}
 }

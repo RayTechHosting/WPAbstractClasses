@@ -33,19 +33,19 @@ namespace RayTech\WPAbstractClasses\Utilities;
 class Paths {
 
 	/**
-	 * Type of implementation.(theme or plugin)
+	 * Configuration Array from file
 	 *
-	 * @var string
+	 * @var mixed
 	 */
-	private $path_type;
+	public $config;
 
 	/**
 	 * Constructor method
 	 *
-	 * @param string $path_type Type of implementation.
+	 * @return void
 	 */
-	public function __construct( string $path_type ) {
-		$this->path_type = $path_type;
+	public function __construct() {
+		$this->config = new Configuration();
 	}
 
 	/**
@@ -55,9 +55,9 @@ class Paths {
 	 * @return string
 	 */
 	public function getAssetsPath() {
-		if ( 'plugin' === $this->path_type ) {
+		if ( 'plugin' === $this->config['implementation_type'] ) {
 			return plugin_dir_url( __FILE__ ) . '/../../../assets';
-		} elseif ( 'theme' === $this->path_type ) {
+		} elseif ( 'theme' === $this->config['implementation_type'] ) {
 			return get_stylesheet_directory_uri() . '/vendor/raytechhosting/wpabstractclasses/assets';
 		}
 	}
