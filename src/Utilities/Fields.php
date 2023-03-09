@@ -38,43 +38,12 @@ class Fields {
 	 * @param string $type Input type.
 	 * @return string
 	 */
-	public static function getFqcn( string $type ): string {
+	public static function getFqcn( $type ) {
 		$namespace = '\\RayTech\\WPAbstractClasses\\Fields\\Inputs';
-		$dir       = array_slice( scandir( __DIR__ . '/../Fields/Inputs/' ), 2 );
+		$dir   = array_slice( scandir( __DIR__ . '/../Fields/Inputs/' ), 2 );
 		foreach ( $dir as $class ) {
 			$classes[ strtolower( substr( $class, 0, -4 ) ) ] = substr( $class, 0, -4 );
 		}
 		return $namespace . '\\' . $classes[ $type ];
-	}
-
-	/**
-	 * Undocumented function
-	 *
-	 * @return array
-	 */
-	public static function getFieldList() {
-		return [
-			'checkbox' => 'Checkbox',
-			'color'    => 'Color',
-			'date'     => 'Date',
-			'datetime' => 'DateTime',
-			'email'    => 'Email',
-			'file'     => 'File',
-			'hidden'   => 'Hidden',
-			'media'    => 'Media',
-			'month'    => 'Month',
-			'number'   => 'Number',
-			'password' => 'Password',
-			'radio'    => 'Radio',
-			'range'    => 'Range',
-			'select'   => 'Select',
-			'tel'      => 'Telephone',
-			'text'     => 'Text',
-			'textarea' => 'TextArea',
-			'time'     => 'Time',
-			'url'      => 'Url',
-			'week'     => 'Week',
-			'wysiwyg'  => 'Wysiwyg',
-		];
 	}
 }
