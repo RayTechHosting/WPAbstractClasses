@@ -35,11 +35,16 @@ use Symfony\Component\Yaml\Yaml;
 class Configuration {
 
 	/**
-	 * Parsing the config file from root of theme or plugin
+	 * Data array of config file
 	 *
-	 * @return array
+	 * @var mixed
+	 */
+	public $data;
+
+	/**
+	 * Parsing the config file from root of theme or plugin.
 	 */
 	public function __construct() {
-		return Yaml::parseFile( '../../.rtabstract.yml' );
+		$this->data = Yaml::parseFile( '../../.rtabstract.yml' );
 	}
 }

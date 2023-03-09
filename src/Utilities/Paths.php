@@ -55,9 +55,9 @@ class Paths {
 	 * @return string
 	 */
 	public function getAssetsPath() {
-		if ( 'plugin' === $this->config['implementation_type'] ) {
+		if ( 'plugin' === $this->config->data['implementation_type'] ) {
 			return plugin_dir_url( __FILE__ ) . '/../../../assets';
-		} elseif ( 'theme' === $this->config['implementation_type'] ) {
+		} elseif ( 'theme' === $this->config->data['implementation_type'] ) {
 			return get_stylesheet_directory_uri() . '/vendor/raytechhosting/wpabstractclasses/assets';
 		}
 	}
