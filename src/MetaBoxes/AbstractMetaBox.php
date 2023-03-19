@@ -232,6 +232,10 @@ abstract class AbstractMetaBox {
 	 * @return int
 	 */
 	public function save_meta( $post_id, $post ) {
+		// Verify the post type is the same as this method is assigned to to save on performance.
+		if ( $post->post_type !== $this->getPostType() ) {
+			return $post_id;
+		}
 
 		// Verify the nonce before proceeding.
 		if ( ! isset( $_POST[ $this->post_type_name . 's_meta_nonce' ] ) || ! wp_verify_nonce( $_POST[ $this->post_type_name . 's_meta_nonce' ], basename( __FILE__ ) ) ) {
@@ -255,6 +259,7 @@ abstract class AbstractMetaBox {
 			} elseif ( isset( $_POST[ $this->post_type_class . $meta_key ] ) && ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
 			} else {
+
 				if ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ) {
 					$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
 				}
