@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.3] - 2023-03-19
+
+### Fixed
+
+- Fixed performance issue on saving meta box data.
+- Fixed meta box data as array being empty to remove it.
+
+## [0.8.2] - 2023-03-17
+
+### FIxed
+
+- Added some use statements to fix some bugs.
+
 ## [0.8.1] - 2023-03-09
 
 ### Fixed
