@@ -259,19 +259,19 @@ abstract class AbstractMetaBox {
 			} elseif ( isset( $_POST[ $this->post_type_class . $meta_key ] ) && ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
 			} else {
-				// Verify if the array is empty then remove it.
-				foreach ( $_POST[ $this->post_type_class . $meta_key ] as $link_id => $link ) {
-					$count = 0;
-					foreach ( $link as $attribute ) {
-						if ( empty( $attribute ) ) {
-							$count++;
+				if ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ) {
+					// Verify if the array is empty then remove it.
+					foreach ( $_POST[ $this->post_type_class . $meta_key ] as $link_id => $link ) {
+						$count = 0;
+						foreach ( $link as $attribute ) {
+							if ( empty( $attribute ) ) {
+								$count++;
+							}
+						}
+						if ( count( $link ) === $count ) {
+							unset( $_POST[ $this->post_type_class . $meta_key ][ $link_id ] );
 						}
 					}
-					if ( count( $link ) === $count ) {
-						unset( $_POST[ $this->post_type_class . $meta_key ][ $link_id ] );
-					}
-				}
-				if ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ) {
 					$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
 				}
 			}
