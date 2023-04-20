@@ -186,7 +186,7 @@ abstract class AbstractMetaBox {
 		wp_nonce_field( basename( __FILE__ ), $this->post_type_name . 's_meta_nonce' );
 		echo '<div class="grid grid-cols-' . esc_attr( $this->getColumns() ) . ' gap-2">';
 		foreach ( $this->getConfig() as $meta_key => $value ) {
-			echo '<div id="' . esc_attr( $this->post_type_class . $meta_key ) . '">
+			echo '<div id="' . esc_attr( $this->post_type_class . $meta_key ) . '_group">
 				<label for="' . esc_attr( $this->post_type_class . $meta_key ) . '">' . esc_html( $value['label'] ) . '</label>
 				<br />';
 
@@ -260,16 +260,18 @@ abstract class AbstractMetaBox {
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
 			} else {
 				if ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ) {
-					// Verify if the array is empty then remove it.
-					foreach ( $_POST[ $this->post_type_class . $meta_key ] as $link_id => $link ) {
-						$count = 0;
-						foreach ( $link as $attribute ) {
-							if ( empty( $attribute ) ) {
-								$count++;
+					if ( is_countable( $_POST[ $this->post_type_class . $meta_key ] ) ) {
+						// Verify if the array is empty then remove it.
+						foreach ( $_POST[ $this->post_type_class . $meta_key ] as $link_id => $link ) {
+							$count = 0;
+							foreach ( $link as $attribute ) {
+								if ( empty( $attribute ) ) {
+									$count++;
+								}
 							}
-						}
-						if ( count( $link ) === $count ) {
-							unset( $_POST[ $this->post_type_class . $meta_key ][ $link_id ] );
+							if ( count( $link ) === $count ) {
+								unset( $_POST[ $this->post_type_class . $meta_key ][ $link_id ] );
+							}
 						}
 					}
 					$new_meta_value = JsonEncoder::encode( $_POST[ $this->post_type_class . $meta_key ] );
