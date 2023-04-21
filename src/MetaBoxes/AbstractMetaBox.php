@@ -264,13 +264,15 @@ abstract class AbstractMetaBox {
 						// Verify if the array is empty then remove it.
 						foreach ( $_POST[ $this->post_type_class . $meta_key ] as $link_id => $link ) {
 							$count = 0;
-							foreach ( $link as $attribute ) {
-								if ( empty( $attribute ) ) {
-									$count++;
+							if ( is_countable( $link ) ) {
+								foreach ( $link as $attribute ) {
+									if ( empty( $attribute ) ) {
+										$count++;
+									}
 								}
-							}
-							if ( count( $link ) === $count ) {
-								unset( $_POST[ $this->post_type_class . $meta_key ][ $link_id ] );
+								if ( count( $link ) === $count ) {
+									unset( $_POST[ $this->post_type_class . $meta_key ][ $link_id ] );
+								}
 							}
 						}
 					}
