@@ -93,7 +93,7 @@ abstract class AbstractMetaBox {
 		add_action( 'load-post.php', [$this, 'add_boxes_setup'] );
 		add_action( 'load-post-new.php', [$this, 'add_boxes_setup'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue'] );
-		add_filter( 'script_loader_tag', [$this, 'add_type_attribute'], 10, 3 );
+		add_filter( 'script_loader_tag', [$this, 'add_type_attribute'], 10, 2 );
 	}
 
 	/**
@@ -101,18 +101,17 @@ abstract class AbstractMetaBox {
 	 *
 	 * @param string $tag    HTML script tag string.
 	 * @param string $handle JS loading handle.
-	 * @param string $src   URL of loading script.
 	 * @return string
 	 */
-	public function add_type_attribute( $tag, $handle, $src ) {
-		// if not your script, do nothing and return original $tag.
-		if ( 'rtabstract-conditional' !== $handle ) {
-			return $tag;
+	public function add_type_attribute( $tag, $handle ) {
+		$scripts_to_defer = [ 'rtabstract-conditional', 'rtabstract-main' ];
+		foreach ( $scripts_to_defer as $defer_script ) {
+			if ( $defer_script === $handle ) {
+				return str_replace( ' src', ' async type="module"" src', $tag );
+			}
 		}
-		// change the script tag by adding type="module" and return it.
-		// phpcs:ignore
-		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
 		return $tag;
+
 	}
 
 	/**
@@ -123,7 +122,8 @@ abstract class AbstractMetaBox {
 	public function admin_enqueue() {
 		$path = new Paths();
 		wp_enqueue_script( 'rtabstract-conditional', $path->getAssetsPath() . '/dist/js/conditional.js', ['jquery'], '0.7.0', true );
-		wp_enqueue_style( 'rtabstract-style', $path->getAssetsPath() . '/dist/css/style.css', [], '0.7.0' );
+		wp_enqueue_script( 'rtabstract-main', $path->getAssetsPath() . '/dist/js/main.js', [], '1.0.0', true );
+		wp_enqueue_style( 'rtabstract-style', $path->getAssetsPath() . '/dist/css/style.css', [], '1.0.0' );
 		wp_enqueue_script( 'rtabstract-media', $path->getAssetsPath() . '/dist/js/jquery.mediaupload.js', ['jquery'], '0.7.0', true );
 	}
 
