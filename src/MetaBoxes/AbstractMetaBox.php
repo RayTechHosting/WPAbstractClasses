@@ -256,7 +256,7 @@ abstract class AbstractMetaBox {
 		foreach ( $values as $meta_key ) {
 			if ( 'wysiwyg' === $config[ $meta_key ]['type'] ) {
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_UNSAFE_RAW ) : '' );
-			} elseif ( isset( $_POST[ $this->post_type_class . $meta_key ] ) && ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) {
+			} elseif ( ( isset( $_POST[ $this->post_type_class . $meta_key ] ) && ! is_array( $_POST[ $this->post_type_class . $meta_key ] ) ) || 'checkbox' === $config[ $meta_key ]['type'] ) {
 				$new_meta_value = ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ? filter_input( INPUT_POST, $this->post_type_class . $meta_key, FILTER_SANITIZE_SPECIAL_CHARS ) : '' );
 			} else {
 				if ( isset( $_POST[ $this->post_type_class . $meta_key ] ) ) {
