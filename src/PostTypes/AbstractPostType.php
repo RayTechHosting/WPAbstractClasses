@@ -29,6 +29,7 @@ namespace RayTech\WPAbstractClasses\PostTypes;
 
 use RayTech\WPAbstractClasses\Traits\Configuration;
 use RayTech\WPAbstractClasses\Traits\PostType;
+use RayTech\WPAbstractClasses\Utilities\Configuration as UtilitiesConfiguration;
 
 /**
  * Abstract class to utilize to create new post types for WordPress.
@@ -44,7 +45,7 @@ abstract class AbstractPostType {
 	 * @access protected
 	 * @var string
 	 */
-	private $post_type_name;
+	protected $post_type_name;
 
 
 	/**
@@ -52,14 +53,14 @@ abstract class AbstractPostType {
 	 *
 	 * @var string
 	 */
-	private $label;
+	protected $label;
 
 	/**
 	 * An array of labels for this post type.
 	 *
 	 * @var string[]
 	 */
-	private $labels;
+	protected $labels;
 
 	/**
 	 * This variable sets the publicly viewable settings.
@@ -67,98 +68,98 @@ abstract class AbstractPostType {
 	 * @access protected
 	 * @var bool
 	 */
-	private $public;
+	protected $public;
 
 	/**
 	 * This variable constrols whether the post type is publicly queriable.
 	 *
 	 * @var bool
 	 */
-	private $publicly_queriable;
+	protected $publicly_queriable;
 
 	/**
 	 * Description of the post type.
 	 *
 	 * @var string
 	 */
-	private $description;
+	protected $description;
 
 	/**
 	 * This variable sets wether or not the post is hierarchical.
 	 *
 	 * @var bool
 	 */
-	private $hierarchical;
+	protected $hierarchical;
 
 	/**
 	 * Whether to exclude posts with this post type from front end search results.
 	 *
 	 * @var bool
 	 */
-	private $exclude_from_search;
+	protected $exclude_from_search;
 
 	/**
 	 * Whether to generate and allow a UI for managing this post type in the admin.
 	 *
 	 * @var bool
 	 */
-	private $show_ui;
+	protected $show_ui;
 
 	/**
 	 * Undocumented variable
 	 *
 	 * @var bool|string
 	 */
-	private $show_in_menu;
+	protected $show_in_menu;
 
 	/**
 	 * Makes this post type available for selection in navigation menus.
 	 *
 	 * @var bool
 	 */
-	private $show_in_nav_menus;
+	protected $show_in_nav_menus;
 
 	/**
 	 * Makes this post type available via the admin bar.
 	 *
 	 * @var bool
 	 */
-	private $show_in_admin_bar;
+	protected $show_in_admin_bar;
 
 	/**
 	 * Whether to include the post type in the REST API.
 	 *
 	 * @var bool
 	 */
-	private $show_in_rest;
+	protected $show_in_rest;
 
 	/**
 	 * To change the base URL of REST API route.
 	 *
 	 * @var string
 	 */
-	private $rest_base;
+	protected $rest_base;
 
 	/**
 	 * To change the namespace URL of REST API route.
 	 *
 	 * @var string
 	 */
-	private $rest_namespace;
+	protected $rest_namespace;
 
 	/**
 	 * REST API controller class name.
 	 *
 	 * @var string
 	 */
-	private $rest_controller_class;
+	protected $rest_controller_class;
 
 	/**
 	 * The position in the menu order the post type should appear.
 	 *
 	 * @var integer
 	 */
-	private $menu_position;
+	protected $menu_position;
 
 	/**
 	 * The URL to the icon to be used for this menu. Pass a base64-encoded SVG using a data URI,
@@ -169,98 +170,98 @@ abstract class AbstractPostType {
 	 *
 	 * @var string
 	 */
-	private $menu_icon;
+	protected $menu_icon;
 
 	/**
 	 * The string to use to build the read, edit, and delete capabilities.
 	 *
 	 * @var string|array
 	 */
-	private $capability_type;
+	protected $capability_type;
 
 	/**
 	 * Array of capabilities for this post type.
 	 *
 	 * @var string[]
 	 */
-	private $capabilities;
+	protected $capabilities;
 
 	/**
 	 * Whether to use the internal default meta capability handling.
 	 *
 	 * @var bool
 	 */
-	private $map_meta_cap;
+	protected $map_meta_cap;
 
 	/**
 	 * Core feature(s) the post type supports.
 	 *
 	 * @var array
 	 */
-	private $supports;
+	protected $supports;
 
 	/**
 	 * Provide a callback function that sets up the meta boxes for the edit form.
 	 *
 	 * @var callable
 	 */
-	private $register_meta_box_cb;
+	protected $register_meta_box_cb;
 
 	/**
 	 * An array of taxonomy identifiers that will be registered for the post type.
 	 *
 	 * @var string[]
 	 */
-	private $taxonomies;
+	protected $taxonomies;
 
 	/**
 	 * Whether there should be post type archives, or if a string, the archive slug to use.
 	 *
 	 * @var bool|string
 	 */
-	private $has_archive;
+	protected $has_archive;
 
 	/**
 	 * Triggers the handling of rewrites for this post type. To prevent rewrite, set to false.
 	 *
 	 * @var bool|array
 	 */
-	private $rewrite;
+	protected $rewrite;
 
 	/**
 	 * Sets the query_var key for this post type.
 	 *
 	 * @var string|bool
 	 */
-	private $query_var;
+	protected $query_var;
 
 	/**
 	 * Whether to allow this post type to be exported.
 	 *
 	 * @var bool
 	 */
-	private $can_export;
+	protected $can_export;
 
 	/**
 	 * Whether to delete posts of this type when deleting a user.
 	 *
 	 * @var bool
 	 */
-	private $delete_with_user;
+	protected $delete_with_user;
 
 	/**
 	 * Array of blocks to use as the default initial state for an editor session.
 	 *
 	 * @var array
 	 */
-	private $template;
+	protected $template;
 
 	/**
 	 * Whether the block template should be locked if $template is set.
 	 *
 	 * @var string|false
 	 */
-	private $template_lock;
+	protected $template_lock;
 
 	/**
 	 * Constructor method add the required action for registering the post type.
@@ -269,7 +270,8 @@ abstract class AbstractPostType {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->post_type_name = RTABSTRACT_THEME_NAME . '-' . $this->getPostType();
+		$config = new UtilitiesConfiguration();
+		$this->post_type_name = $config->data['theme_name'] . '-' . $this->getPostType();
 		$slug                 = get_option( $this->post_type_name . '_base' );
 		if ( ! $slug ) {
 			$slug = $this->getPostType();
@@ -293,7 +295,7 @@ abstract class AbstractPostType {
 			->setDeleteWithUser( false );
 		$labels = new Labels( $this->getPostType() );
 		$this->setLabels( $labels->toArray() );
-		$this->post_type_name = \RTABSTRACT_THEME_NAME . '_' . $this->getPostType() . '';
+		$this->post_type_name = $config->data['theme_name'] . '_' . $this->getPostType() . '';
 		add_action( 'init', [ $this, 'registerPostType' ] );
 	}
 
@@ -306,23 +308,6 @@ abstract class AbstractPostType {
 	public function registerPostType() {
 		register_post_type( $this->getPostType(), $this->getConfig() );
 	}
-
-	/**
-	 * Get Configuration array
-	 *
-	 * @access protected
-	 * @return array
-	 */
-	protected function getConfig() {
-		$config = [];
-		foreach ( $this as $key => $value ) {
-			if ( ! empty( $value ) ) {
-				$config[ $key ] = $value;
-			}
-		}
-		return $config;
-	}
-
 
 	/**
 	 * Get an array of labels for this post type.
