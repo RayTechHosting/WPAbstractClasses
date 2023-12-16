@@ -30,6 +30,7 @@ namespace RayTech\WPAbstractClasses\MetaBoxes;
 use Exception;
 use RayTech\WPAbstractClasses\Fields\Repeater;
 use RayTech\WPAbstractClasses\Traits\PostType;
+use RayTech\WPAbstractClasses\Utilities\Configuration;
 use RayTech\WPAbstractClasses\Utilities\Fields;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 use RayTech\WPAbstractClasses\Utilities\Paths;
@@ -47,7 +48,7 @@ abstract class AbstractMetaBox {
 	 *
 	 * @var array $config
 	 */
-	private $config;
+	protected $config;
 
 	/**
 	 * Amount of columns to seperate the meta box in.
@@ -88,8 +89,9 @@ abstract class AbstractMetaBox {
 	 * Constructor method which sets some variable and adds action for the meta boxes.
 	 */
 	public function __construct() {
-		$this->post_type_class = RTABSTRACT_THEME_NAME . '-' . $this->getPostType() . '-';
-		$this->post_type_name  = RTABSTRACT_THEME_NAME . '_' . $this->getPostType();
+		$config = new Configuration();
+		$this->post_type_class = $config->data['theme_name'] . '-' . $this->getPostType() . '-';
+		$this->post_type_name  = $config->data['theme_name'] . '_' . $this->getPostType();
 		add_action( 'load-post.php', [$this, 'add_boxes_setup'] );
 		add_action( 'load-post-new.php', [$this, 'add_boxes_setup'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue'] );
@@ -104,7 +106,7 @@ abstract class AbstractMetaBox {
 	 * @return string
 	 */
 	public function add_type_attribute( $tag, $handle ) {
-		$scripts_to_defer = [ 'rtabstract-conditional', 'rtabstract-main' ];
+		$scripts_to_defer = [ 'rtabstract-conditional', 'rtabstract-main', 'rtabstract-repeater' ];
 		foreach ( $scripts_to_defer as $defer_script ) {
 			if ( $defer_script === $handle ) {
 				return str_replace( ' src', ' async type="module"" src', $tag );
@@ -120,11 +122,14 @@ abstract class AbstractMetaBox {
 	 * @return void
 	 */
 	public function admin_enqueue() {
-		$path = new Paths();
-		wp_enqueue_script( 'rtabstract-conditional', $path->getAssetsPath() . '/dist/js/conditional.js', ['jquery'], '0.7.0', true );
-		wp_enqueue_script( 'rtabstract-main', $path->getAssetsPath() . '/dist/js/main.js', [], '1.0.0', true );
-		wp_enqueue_style( 'rtabstract-style', $path->getAssetsPath() . '/dist/css/style.css', [], '1.0.0' );
-		wp_enqueue_script( 'rtabstract-media', $path->getAssetsPath() . '/dist/js/jquery.mediaupload.js', ['jquery'], '0.7.0', true );
+		$config = new Configuration();
+		$path   = new Paths();
+		wp_enqueue_script( 'rtabstract-conditional', $path->getAssetsPath() . '/dist/js/conditional.js', ['jquery'], $config->data['theme_version'], true );
+		wp_enqueue_script( 'rtabstract-main', $path->getAssetsPath() . '/dist/js/main.js', [], $config->data['theme_version'], true );
+		wp_enqueue_style( 'rtabstract-style', $path->getAssetsPath() . '/dist/css/style.css', [], $config->data['theme_version'] );
+		wp_enqueue_script( 'rtabstract-media', $path->getAssetsPath() . '/dist/js/jquery.mediaupload.js', ['jquery'], $config->data['theme_version'], true );
+		wp_enqueue_script( 'rtabstract-repeater', $path->getAssetsPath() . '/dist/js/repeater.js', ['jquery'], $config->data['theme_version'], true );
+		wp_enqueue_style( 'rtabstract-repeater', $path->getAssetsPath() . '/dist/css/repeater.css', [], $config->data['theme_version'], 'all' );
 	}
 
 	/**

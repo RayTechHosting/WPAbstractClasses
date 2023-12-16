@@ -28,6 +28,7 @@
 namespace RayTech\WPAbstractClasses\Fields;
 
 use Exception;
+use RayTech\WPAbstractClasses\Utilities\Configuration;
 use RayTech\WPAbstractClasses\Utilities\Fields as Utils;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
 use RayTech\WPAbstractClasses\Utilities\Paths;
@@ -43,44 +44,6 @@ class Repeater {
 	 * @var array $config
 	 */
 	private $config = [];
-
-	/**
-	 * Constructor method to add in scripts.
-	 */
-	public function __construct() {
-		add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue'] );
-		add_filter( 'script_loader_tag', [$this, 'add_type_attribute'], 10, 3 );
-	}
-
-	/**
-	 * Filter method for scripts.
-	 *
-	 * @param string $tag    Script HTML.
-	 * @param string $handle Script handle name.
-	 * @param string $src    Script source attribute.
-	 * @return string
-	 */
-	public function add_type_attribute( $tag, $handle, $src ) {
-		// if not your script, do nothing and return original $tag.
-		if ( 'extra-repeater-js' !== $handle ) {
-			return $tag;
-		}
-		// change the script tag by adding type="module" and return it.
-		// phpcs:ignore
-		$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
-		return $tag;
-	}
-
-	/**
-	 * Method to enqueue the script files.
-	 *
-	 * @return void
-	 */
-	public function admin_enqueue() {
-		$path = new Paths();
-		wp_enqueue_script( 'extra-repeater', $path->getAssetsPath() . '/dist/js/repeater.js', ['jquery'], '0.1.0', true );
-		wp_enqueue_style( 'extra-repeater', $path->getAssetsPath() . '/dist/css/repeater.css', [], '0.7.0', 'all' );
-	}
 
 	/**
 	 * Grab the configuration array of the repeated fields.
@@ -123,8 +86,9 @@ class Repeater {
 	 * @return void
 	 */
 	public static function render( string $id, string $post_type, string $meta_key, array $fields, bool $blank = false ) {
+		$config = new Configuration();
 		$loop   = 0;
-		$name   = RTABSTRACT_THEME_NAME . '-' . $post_type . '-' . $meta_key;
+		$name   = $config->data['theme_name'] . '-' . $post_type . '-' . $meta_key;
 		$values = JsonEncoder::decode( get_post_meta( $id, $name, true ), true );
 
 		if ( $blank ) {
@@ -133,12 +97,12 @@ class Repeater {
 			foreach ( $fields as $input_key => $field ) {
 
 				$fqcn = Utils::getFqcn( $field['type'] );
-				if ( null !== $field['attr'] ) {
+				if ( isset( $field['attr'] ) && null !== $field['attr'] ) {
 					$attr = array_merge( $field['attr'], ['data-input-key' => $input_key] );
 				} else {
 					$attr = ['data-input-key' => $input_key];
 				}
-				echo '<p>
+				echo '<div>
 				<label for="' . esc_attr( $name . '-' . $input_key ) . '">' . esc_html( $field['label'] ) . '</label>';
 				$input = new $fqcn(
 					$name . '-blank',
@@ -147,7 +111,7 @@ class Repeater {
 					$attr
 				);
 				$input->render();
-				echo '</p>';
+				echo '</div>';
 			}
 			echo '<hr /></div>';
 		} else {
@@ -156,7 +120,7 @@ class Repeater {
 				echo '<div class="float-right close"><button type="button">X</button></div>';
 				foreach ( $fields as $input_key => $field ) {
 					$fqcn = Utils::getFqcn( $field['type'] );
-					if ( null !== $field['attr'] ) {
+					if ( isset( $field['attr'] ) && null !== $field['attr'] ) {
 						$attr = array_merge( $field['attr'], ['data-input-key' => $input_key] );
 					} else {
 						$attr = ['data-input-key' => $input_key];
@@ -180,7 +144,7 @@ class Repeater {
 					if ( is_array( $value ) ) {
 						foreach ( $fields as $input_key => $field ) {
 							$fqcn = Utils::getFqcn( $field['type'] );
-							if ( null !== $field['attr'] ) {
+							if ( isset( $field['attr'] ) && null !== $field['attr'] ) {
 								$attr = $field['attr'];
 							} else {
 								$attr = null;

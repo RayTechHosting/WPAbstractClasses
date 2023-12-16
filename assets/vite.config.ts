@@ -8,7 +8,6 @@ export default defineConfig({
 		postcss: {
 			plugins: [
 				require('postcss-import'),
-				require('postcss-inline-svg'),
 				require('tailwindcss/nesting'),
 				require('tailwindcss'),
 				require('autoprefixer'),

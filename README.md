@@ -10,38 +10,37 @@ Install using composer is the method supported by this package.
   composer require raytechhosting/wpabstractclasses
 ```
 
-## Documentation
-
-You can view the code documentation within the docs folder.
-
 ## Usage
 
-All you need to do to use these classes is to have composer autoload the classes and then reference them using a use statement and after that you can extend the abstract classes for different type of data.
+Start by creating a file '.rtabstract.yml' at the root of your theme or plugin folder.
+Here is an example of how to setup the file.
 
-Here is a list of the data types that have Abstract Classes:
-
-| Data Type  | Abstract class                                         |
-|------------|--------------------------------------------------------|
-| Post Type  | RayTech\WPAbstractClasses\PostTypes\AbstractPostType   |
-| Permalink  | RayTech\WPAbstractClasses\Permalinks\AbstractPermalink |
-| Taxonomy   | RayTech\WPAbstractClasses\Taxonomies\AbstractTaxonomy  |
-| Meta Box   | RayTech\WPAbstractClasses\MetaBoxes\AbstractMetaBox    |
-| Admin page | RayTech\WPAbstractClasses\Administration\AbstractPage  |
-
-Here is a list of the data types that have Wrapper Classes:
-
-| Data Type       | Wrapper Classes                                     |
-|-----------------|-----------------------------------------------------|
-| Settings API    | RayTech\WPAbstractClasses\Administration\Setting    |
-| Options API     | RayTech\WPAbstractClasses\Administration\Option     |
-| Site Option API | RayTech\WPAbstractClasses\Administration\SiteOption |
-
-Also some utilities:
-
-| Utility      | Class                                           |
-|--------------|-------------------------------------------------|
-| Json Encoder | RayTech\WPAbstractClasses\Utilities\JsonEncoder |
-
-### Examples
-
-You can refer to the examples folder for more details.
+```yaml
+implementation_type: theme
+theme_name: theme-name
+theme_version: 1.0.0
+post_types:
+  portfolio:
+    tags: true
+    categories: true
+    supports: 
+      - title
+      - editor
+      - thumbnail
+    meta_boxes:
+      meta:
+        columns: 3
+        label: Meta
+        fields:
+          name:
+            type: text
+            label: Name
+          test:
+            type: repeater
+            label: Tester
+            attr:
+              fields:
+                tester:
+                  type: number
+                  label: Tester
+```

@@ -27,6 +27,7 @@
 
 namespace RayTech\WPAbstractClasses\Utilities;
 
+use RayTech\WPAbstractClasses\Factory\PostTypeFactory;
 use Symfony\Component\Yaml\Yaml;
 
 /**
