@@ -46,21 +46,21 @@ abstract class AbstractTaxonomy {
 	 * @access protected
 	 * @var array $types
 	 */
-	private $types;
+	protected $types;
 
 	/**
 	 * What type of taxonomy this taxonomy will be.
 	 *
 	 * @var string
 	 */
-	private $type;
+	protected $type;
 
 	/**
 	 * A plural descriptive name for the taxonomy marked for translation.
 	 *
 	 * @var string
 	 */
-	private $label;
+	protected $label;
 
 	/**
 	 * An array of labels for this taxonomy. By default tag labels are used for non-hierarchical types and category
@@ -68,42 +68,42 @@ abstract class AbstractTaxonomy {
 	 *
 	 * @var string[]
 	 */
-	private $labels;
+	protected $labels;
 
 	/**
 	 * Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.
 	 *
 	 * @var bool
 	 */
-	private $public;
+	protected $public;
 
 	/**
 	 * Whether the taxonomy is publicly queryable.
 	 *
 	 * @var bool
 	 */
-	private $public_queryable;
+	protected $public_queryable;
 
 	/**
 	 * Whether to generate a default UI for managing this taxonomy.
 	 *
 	 * @var bool
 	 */
-	private $show_ui;
+	protected $show_ui;
 
 	/**
 	 * Where to show the taxonomy in the admin menu. show_ui must be true.
 	 *
 	 * @var bool
 	 */
-	private $show_in_menu;
+	protected $show_in_menu;
 
 	/**
 	 * True makes this taxonomy available for selection in navigation menus.
 	 *
 	 * @var bool
 	 */
-	private $show_in_nav_menus;
+	protected $show_in_nav_menus;
 
 	/**
 	 * Whether to include the taxonomy in the REST API. You will need to set this to true in order to use the taxonomy
@@ -111,63 +111,63 @@ abstract class AbstractTaxonomy {
 	 *
 	 * @var bool
 	 */
-	private $show_in_rest;
+	protected $show_in_rest;
 
 	/**
 	 * To change the base url of REST API route.
 	 *
 	 * @var string
 	 */
-	private $rest_base;
+	protected $rest_base;
 
 	/**
 	 * REST API Controller class name.
 	 *
 	 * @var string
 	 */
-	private $rest_controller_class;
+	protected $rest_controller_class;
 
 	/**
 	 * Whether to allow the Tag Cloud widget to use this taxonomy.
 	 *
 	 * @var bool
 	 */
-	private $show_tagcloud;
+	protected $show_tagcloud;
 
 	/**
 	 * Whether to show the taxonomy in the quick/bulk edit panel.
 	 *
 	 * @var bool
 	 */
-	private $show_in_quick_edit;
+	protected $show_in_quick_edit;
 
 	/**
 	 * Provide a callback function name for the meta box display.
 	 *
 	 * @var callable
 	 */
-	private $meta_box_cb;
+	protected $meta_box_cb;
 
 	/**
 	 * Whether to allow automatic creation of taxonomy columns on associated post-types table.
 	 *
 	 * @var bool
 	 */
-	private $show_admin_column;
+	protected $show_admin_column;
 
 	/**
 	 * Include a description of the taxonomy.
 	 *
 	 * @var string
 	 */
-	private $description;
+	protected $description;
 
 	/**
 	 * Is this taxonomy hierarchical (have descendants) like categories or not hierarchical like tags.
 	 *
 	 * @var bool
 	 */
-	private $hierarchical;
+	protected $hierarchical;
 
 	/**
 	 * A function name that will be called when the count of an associated $object_type, such as post, is updated.
@@ -175,7 +175,7 @@ abstract class AbstractTaxonomy {
 	 *
 	 * @var string
 	 */
-	private $update_count_callback;
+	protected $update_count_callback;
 
 	/**
 	 * False to disable the query_var, set as string to use custom query_var instead of default which is $taxonomy, the
@@ -183,7 +183,7 @@ abstract class AbstractTaxonomy {
 	 *
 	 * @var bool|string
 	 */
-	private $query_var;
+	protected $query_var;
 
 	/**
 	 * Set to false to prevent automatic URL rewriting a.k.a. “pretty permalinks”. Pass an $args array to override
@@ -191,21 +191,21 @@ abstract class AbstractTaxonomy {
 	 *
 	 * @var bool|array
 	 */
-	private $rewrite;
+	protected $rewrite;
 
 	/**
 	 * An array of the capabilities for this taxonomy.
 	 *
 	 * @var array
 	 */
-	private $capabilities;
+	protected $capabilities;
 
 	/**
 	 * Whether this taxonomy should remember the order in which terms are added to objects.
 	 *
 	 * @var bool
 	 */
-	private $sort;
+	protected $sort;
 
 	/**
 	 * Constructor method helping setup a few things
