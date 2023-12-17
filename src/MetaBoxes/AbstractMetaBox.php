@@ -89,7 +89,7 @@ abstract class AbstractMetaBox {
 	 * Constructor method which sets some variable and adds action for the meta boxes.
 	 */
 	public function __construct() {
-		$config = new Configuration();
+		$config                = new Configuration();
 		$this->post_type_class = $config->data['theme_name'] . '-' . $this->getPostType() . '-';
 		$this->post_type_name  = $config->data['theme_name'] . '_' . $this->getPostType();
 		add_action( 'load-post.php', [$this, 'add_boxes_setup'] );
