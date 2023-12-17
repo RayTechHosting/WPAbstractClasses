@@ -28,6 +28,7 @@
 namespace RayTech\WPAbstractClasses\Permalinks;
 
 use RayTech\WPAbstractClasses\Traits\PostType;
+use RayTech\WPAbstractClasses\Utilities\Configuration;
 
 /**
  * Abstract permalink class.
@@ -46,13 +47,22 @@ abstract class AbstractPermalink {
 	protected $post_type_name = '';
 
 	/**
+	 * Configuration
+	 *
+	 * @access protected
+	 * @var    Configuration
+	 */
+	protected $config;
+
+	/**
 	 * Constructor method
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function __construct() {
-		$this->post_type_name = RTABSTRACT_THEME_NAME . '-' . $this->getPostType();
+		$this->config = new Configuration();
+		$this->post_type_name = $this->config->data['theme_name'] . '-' . $this->getPostType();
 		add_action( 'load-options-permalink.php', [$this, 'loadPermalinks'] );
 	}
 
@@ -86,7 +96,7 @@ abstract class AbstractPermalink {
 	public function permalinks_field_callback() {
 		$value = get_option( $this->post_type_name . '_base' );
 		echo '<input type="text" value="' . esc_attr( $value ) . '" name="' . esc_attr( $this->post_type_name ) . '_base" id="' . esc_attr( $this->post_type_name ) . '_base" class="regular-text" />';
-		wp_nonce_field( RTABSTRACT_THEME_NAME . $this->post_type_name . '_base', $this->post_type_name . '_nonce_base' );
+		wp_nonce_field( $this->config->data['theme_name'] . $this->post_type_name . '_base', $this->post_type_name . '_nonce_base' );
 	}
 
 	/**
@@ -98,6 +108,6 @@ abstract class AbstractPermalink {
 	public function permalinks_cat_field_callback() {
 		$value = get_option( $this->post_type_name . '_cat' );
 		echo '<input type="text" value="' . esc_attr( $value ) . '" name="' . esc_attr( $this->post_type_name ) . '_cat" id="' . esc_attr( $this->post_type_name ) . '_cat" class="regular-text" />';
-		wp_nonce_field( RTABSTRACT_THEME_NAME . $this->post_type_name . '_cat', esc_attr( $this->post_type_name ) . '_nonce_cat' );
+		wp_nonce_field( $this->config->data['theme_name'] . $this->post_type_name . '_cat', esc_attr( $this->post_type_name ) . '_nonce_cat' );
 	}
 }

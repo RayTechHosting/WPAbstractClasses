@@ -13,6 +13,7 @@ namespace RayTech\WPAbstractClasses\Factory;
 use RayTech\WPAbstractClasses\PostTypes\PostType;
 use RayTech\WPAbstractClasses\Taxonomies\Taxonomy;
 use RayTech\WPAbstractClasses\MetaBoxes\MetaBox;
+use RayTech\WPAbstractClasses\Permalinks\Permalink;
 
 /**
  * Class PostTypeFactory
@@ -28,9 +29,10 @@ class PostTypeFactory {
 	 * @return object
 	 */
 	public static function create( string $post_type, mixed $args = [] ): object {
-		$tags      = $args['tags'];
-		$cats      = $args['categories'];
-		$metaboxes = $args['meta_boxes'];
+		$tags       = $args['tags'];
+		$cats       = $args['categories'];
+		$metaboxes  = $args['meta_boxes'];
+		$permalinks = $args['permalinks'];
 		unset( $args['tags'] );
 		unset( $args['categories'] );
 		unset( $args['meta_boxes'] );
@@ -40,6 +42,9 @@ class PostTypeFactory {
 		}
 		if ( $cats ) {
 			$cats = new Taxonomy( $post_type, 'category', $cats );
+		}
+		if ( $permalinks ) {
+			new Permalink( $post_type );
 		}
 		if ( $metaboxes ) {
 			foreach ( $metaboxes as $name => $metabox ) {
