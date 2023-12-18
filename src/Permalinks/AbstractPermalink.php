@@ -61,7 +61,7 @@ abstract class AbstractPermalink {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->config = new Configuration();
+		$this->config         = new Configuration();
 		$this->post_type_name = $this->config->data['theme_name'] . '-' . $this->getPostType();
 		add_action( 'load-options-permalink.php', [$this, 'loadPermalinks'] );
 	}
