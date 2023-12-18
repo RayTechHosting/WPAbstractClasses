@@ -44,3 +44,17 @@ post_types:
                   type: number
                   label: Tester
 ```
+
+And add this code snippet to your functions.php file.
+
+```php
+require_once __DIR__ . '/vendor/autoload.php' ;
+
+use RayTech\WPAbstractClasses\Factory\PostTypeFactory;
+use RayTech\WPAbstractClasses\Utilities\Configuration;
+
+$config = new Configuration();
+foreach ( $config->data['post_types'] as $post_type => $args ) {
+  PostTypeFactory::create( $post_type, $args );
+}
+```
