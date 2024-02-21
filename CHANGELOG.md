@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added a few checks to make sure the post type et arguments is set before trying to register it.
+- Added a few checks to make sure the post type et arguments is set before trying to register it with the factory.
 - Added defaults to certain options that was missing the defaults
 
 ## [0.10.0] - 2023-12-17
