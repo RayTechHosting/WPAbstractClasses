@@ -1,0 +1,20 @@
+{
+	"extends": [
+		"@wordpress/stylelint-config/scss",
+		"stylelint-config-prettier"
+	],
+	"ignoreFiles": ["sass/_normalize.scss"],
+	"rules": {
+		"indentation": "tab",
+		"selector-class-pattern": null,
+		"font-family-no-missing-generic-family-keyword": null,
+		"no-descending-specificity": null,
+		"block-no-empty": null,
+		"no-duplicate-selectors": null,
+		"font-family-no-duplicate-names": null,
+		"function-url-quotes": "always",
+		"at-rule-no-unknown": null,
+		"scss/at-import-partial-extension": ["always", "", { "except": ["scss"] }],
+		"at-rule-allowed-list": [ "tailwind", "screen", "media", "font-face", "each", "import" ]
+	}
+}

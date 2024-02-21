@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <paths>
+        <output>docs/</output>
+        <cache>docs/.cache</cache>
+    </paths>
+    <version number="3.0.0">
+        <api format="php">
+            <source dsn=".">
+                <path>src</path>
+            </source>
+            <ignore hidden="true">
+                <path>vendor</path>
+                <path>tests</path>
+                <path>examples</path>
+                <path>assets</path>
+            </ignore>
+        </api>
+    </version>
+</phpdocumentor>

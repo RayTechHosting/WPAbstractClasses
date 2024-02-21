@@ -1,0 +1,6 @@
+docs
+examples
+vendor
+Abstract\ classes.code-workspace
+assets/node_modules
+**/*.lock
