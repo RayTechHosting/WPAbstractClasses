@@ -8,7 +8,7 @@ class MetaBox extends AbstractMetaBox {
 		$this->setHeader($options['label']);
 		$this->setPostType($post_type);
 		$this->setSlug($name);
-		$this->setColumns($options['columns']);
+		$this->setColumns(($options['columns'])? $options['columns'] : 1);
 		unset($options['label']);
 		unset($options['columns']);
 		parent::__construct();

@@ -31,30 +31,30 @@ class PostTypeFactory {
 	public static function create( string $post_type, mixed $args = [] ): object {
 		$tags       = isset( $args['tags'] ) ? $args['tags'] : false;
 		$cats       = isset( $args['categories']) ? $args['categories'] : false;
+		$permalinks = isset($args['permalinks']) ? $args['permalinks'] : false;
+
 		if ( isset( $args['meta_boxes'] ) ) {
 			$metaboxes  = $args['meta_boxes'];
 		}
-		if ( isset( $args['permalinks'] ) ) {
-			$permalinks = $args['permalinks'];
-		}
+		
 		unset( $args['tags'] );
 		unset( $args['categories'] );
 		unset( $args['meta_boxes'] );
 		unset( $args['permalinks'] );
 
 		$class = new PostType( $post_type, $args );
-		if ( isset( $tags ) ) {
+		if ( isset( $tags ) && $tags ) {
 			$tags = new Taxonomy( $post_type, 'tag', $tags );
 		}
-		if ( isset( $cats ) ) {
+		if ( isset( $cats ) && $cats) {
 			$cats = new Taxonomy( $post_type, 'category', $cats );
 		}
 		if ( isset( $permalinks ) && $permalinks) {
 			new Permalink( $post_type );
 		}
 		if ( isset( $metaboxes ) ) {
-			foreach ( $metaboxes as $name => $metabox ) {
-				$metabox = new MetaBox( $post_type, $name, $metabox );
+			foreach ( $metaboxes as $name => $metaboxData ) {
+				new MetaBox( $post_type, $name, $metaboxData );
 			}
 		}
 		return $class;
