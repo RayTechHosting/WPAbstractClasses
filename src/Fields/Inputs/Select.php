@@ -29,6 +29,7 @@ namespace RayTech\WPAbstractClasses\Fields\Inputs;
 
 use RayTech\WPAbstractClasses\Fields\AbstractInput;
 use RayTech\WPAbstractClasses\Utilities\JsonEncoder;
+use RayTech\WPAbstractClasses\Utilities\Query;
 
 /**
  * Select input
@@ -45,7 +46,7 @@ class Select extends AbstractInput {
 	 * @return void
 	 */
 	public function __construct( $id, $name, $value, $attr ) {
-		if ( true === $attr['multiple'] ) {
+		if ( isset( $attr['multiple'] ) && true === $attr['multiple'] ) {
 			$this->setName( $name . '[]' );
 		} else {
 			$this->setName( $name );
@@ -72,7 +73,7 @@ class Select extends AbstractInput {
 		echo '<select id="' . esc_attr( $this->getInputId() ) . '" name="' . esc_attr( $this->getName() ) . '"';
 		if ( ! empty( $this->getAttributes() ) ) {
 			foreach ( $this->getAttributes() as $attr => $attr_value ) {
-				if ( 'options' === $attr ) {
+				if ( 'options' === $attr || 'query' === $attr ) {
 					continue;
 				} elseif ( 'multiple' === $attr && true === $attr_value ) {
 					echo ' multiple';
@@ -83,7 +84,13 @@ class Select extends AbstractInput {
 		}
 		echo '>';
 
-		foreach ( $this->getAttributes()['options'] as $option => $label ) {
+		if ( isset( $this->getAttributes()['query'] ) ) {
+			$query = new Query();
+			$options = $query->run( $this->getInputId(), $this->getAttributes()['query'] );
+		} else {
+			$options = $this->getAttributes()['options'];
+		}
+		foreach ( $options as $option => $label ) {
 			echo '<option value="' . esc_attr( $option ) . '"';
 			if ( is_array( $value ) ) {
 				if ( in_array( $option, $value, true ) ) {
@@ -94,6 +101,7 @@ class Select extends AbstractInput {
 			}
 			echo '>' . esc_html( $label ) . '</option>';
 		}
+	
 		echo '</select>';
 		if ( isset( $this->getAttributes()['suffix'] ) ) {
 			echo esc_html( $this->getAttributes()['suffix'] );
