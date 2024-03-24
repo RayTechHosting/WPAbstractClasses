@@ -37,7 +37,6 @@ class Query {
 				}
 				if(isset($list['field']) ) { 
 					$field = $list['field'];
-					var_dump($post->$field);
 					$array[$post->ID] = $post->$field;
 				}
 			}
