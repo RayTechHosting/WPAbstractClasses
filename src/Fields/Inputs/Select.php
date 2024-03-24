@@ -93,7 +93,7 @@ class Select extends AbstractInput {
 		foreach ( $options as $option => $label ) {
 			echo '<option value="' . esc_attr( $option ) . '"';
 			if ( is_array( $value ) ) {
-				if ( in_array( $option, $value, true ) ) {
+				if ( in_array( (string) $option, $value, true ) ) {
 					echo ' selected';
 				}
 			} elseif ( $value === $option ) {
