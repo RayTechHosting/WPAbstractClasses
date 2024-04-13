@@ -75,10 +75,10 @@ abstract class AbstractPermalink {
 	public function loadPermalinks() {
 		add_option( $this->post_type_name . '_base' );
 		add_option( $this->post_type_name . '_cat' );
-		if ( isset( $_POST[ $this->post_type_name . '_base' ] ) && isset( $_POST[ $this->post_type_name . '_nonce_base' ] ) && wp_verify_nonce( $_POST[ $this->post_type_name . '_nonce_base' ], RTABSTRACT_THEME_NAME . $this->post_type_name . '_base' ) ) {
+		if ( isset( $_POST[ $this->post_type_name . '_base' ] ) && isset( $_POST[ $this->post_type_name . '_nonce_base' ] ) && wp_verify_nonce( $_POST[ $this->post_type_name . '_nonce_base' ], $this->config->data['theme_name'] . $this->post_type_name . '_base' ) ) {
 			update_option( $this->post_type_name . '_base', sanitize_title_with_dashes( $_POST[ $this->post_type_name . '_base' ] ) );
 		}
-		if ( isset( $_POST[ $this->post_type_name . '_cat' ] ) && isset( $_POST[ $this->post_type_name . '_nonce_cat' ] ) && wp_verify_nonce( $_POST[ $this->post_type_name . '_nonce_cat' ], RTABSTRACT_THEME_NAME . $this->post_type_name . '_cat' ) ) {
+		if ( isset( $_POST[ $this->post_type_name . '_cat' ] ) && isset( $_POST[ $this->post_type_name . '_nonce_cat' ] ) && wp_verify_nonce( $_POST[ $this->post_type_name . '_nonce_cat' ], $this->config->data['theme_name'] . $this->post_type_name . '_cat' ) ) {
 			update_option( $this->post_type_name . '_cat', sanitize_title_with_dashes( $_POST[ $this->post_type_name . '_cat' ] ) );
 		}
 		// phpcs:ignore
