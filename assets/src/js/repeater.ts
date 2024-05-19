@@ -20,7 +20,7 @@
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.7.0
+ * @version    0.11.3
  * @since      0.7.0
  */
 
@@ -30,30 +30,29 @@ import jQuery from 'jquery';
 /**
  * Add a set of fields on click,
  */
-jQuery('body').on('click', '.repeater_add', function(e) {
+jQuery('body').on('click', '.repeater_add', function(e: Event) {
+	const that: JQuery<HTMLElement> = jQuery(this);
 	e.preventDefault();
-	const meta = jQuery( this ).data('meta_key');
+	const meta = jQuery( that ).data('meta_key');
 	let html = jQuery('#rtabstract_repeater_' + meta ).clone()
-	const inputGroups = jQuery(html).children('div').children('div');
-	jQuery(inputGroups).each((index, p) => {
+	const inputGroups = jQuery(html).children('div').children('div:not(.close)');
+	jQuery(inputGroups).each((index: number, p: HTMLElement) => {
 		if(jQuery(p).hasClass('close')) {
 			return;
 		}
-		const input = jQuery(p).children('input');
+		const input = jQuery(p).children('input,select,textarea');
 		const input_key = jQuery(input).data('input-key');
 		const name = jQuery(input).attr('id');
-		let loop: number = 0;
-		let id: RegExpMatchArray | null;
 		if( 'undefined' !== typeof name ) {
-			id = name!.match(/[a-zA-Z\-\_]*/g)
-			loop = getLastId(id![0] as String) + 1;
-		} else {
-			loop = 0;
+			let id: RegExpMatchArray | null = name!.match(/[a-zA-Z\-\_]*/g)
+			if (typeof id !== 'undefined' && id !== null) {
+				let loop = getLastId(id[0] as String) >= 0 ? getLastId(id[0] as String) + 1 : 0;
+				jQuery( input ).attr( 'id', id[0].replace(/-blank/, '-' + input_key + '-' + loop ) );
+				jQuery( input ).attr( 'name', id[0].replace(/-blank/, '[' + loop + '][' + input_key + ']') );
+			}
 		}
-		jQuery( input ).attr( 'id', id![0].replace(/-blank/, '') + '-' + input_key + '-' + loop );
-		jQuery( input ).attr( 'name', id![0].replace(/-blank/, '') + '[' + loop + '][' + input_key + ']' );
 	});
-	jQuery(html.html()).insertBefore(jQuery(this));
+	jQuery(html.html()).insertBefore(jQuery(that));
 	
 });
 
