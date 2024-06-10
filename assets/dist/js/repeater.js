@@ -20,6 +20,6 @@ import{j as t}from"./jquery.js";/**
  * @subpackage WPAbstractClasses
  * @author     Kevin Roy <royk@myraytech.net>
  * @license    GPL-v2 <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
- * @version    0.7.0
+ * @version    0.11.3
  * @since      0.7.0
  */t("body").on("click",".repeater_add",function(l){l.preventDefault();const s=t(this).data("meta_key");let a=t("#rtabstract_repeater_"+s).clone();const i=t(a).children("div").children("div");t(i).each((p,n)=>{if(t(n).hasClass("close"))return;const e=t(n).children("input"),o=t(e).data("input-key"),d=t(e).attr("id");let r=0,c;typeof d<"u"?(c=d.match(/[a-zA-Z\-\_]*/g),r=h(c[0])+1):r=0,t(e).attr("id",c[0].replace(/-blank/,"")+"-"+o+"-"+r),t(e).attr("name",c[0].replace(/-blank/,"")+"["+r+"]["+o+"]")}),t(a.html()).insertBefore(t(this))});function h(l){const s=l.replace(/-blank/,""),a=t('[id^="'+s+'"]');let i=[];return a.each((p,n)=>{if(t(n).attr("id").match(/[\d*]/g)){const e=t(n).attr("id").match(/[\d*]/g),o=parseInt(e[0]);i.push(o)}}),Math.max(...i)}t("body").on("click",".close button",function(){t(this).parent().parent()[0].remove()});
