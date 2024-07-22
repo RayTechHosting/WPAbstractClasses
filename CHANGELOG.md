@@ -5,6 +5,61 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.7] - 2024-07-22
+
+### Fixed
+
+- Fixed issue where the Wordpress menu admin page was not able to add a new menu item.
+
+## [0.11.6] - 2024-07-22
+
+## [0.11.5] - 2024-06-10
+
+### Fixed
+
+- Fixed issue where code was not regenerated properly from last version.
+
+## [0.11.4] - 2024-06-10
+
+### Fixed
+
+- Repeater js not making the button work.
+
+## [0.11.3] - 2024-05-18
+
+### Fixed
+
+- Fixed the repeater not repeating all inputs elements.
+
+## [0.11.2] - 2024-04-13
+
+### Fixed
+
+- Forgot to remove some old constants in abstract permalinks file.
+
+## [0.11.1] - 2024-03-23
+
+### Fixed
+
+- Added missing type cast to the selected item loop for the select field
+- Removed forgotten var_dump from tests.
+
+## [0.11.0] - 2024-03-13
+
+### Added
+
+- Added a way to use queries to create options in a select input and fixed a missing check for the multiple option of a select input.
+
+## [0.10.2] - 2024-03-11
+
+### Add
+
+- Added default for metabox columns
+
+### Fixed
+
+- Fixed categories and tags not working as expected
+
 ## [0.10.1] - 2024-02-21
 
 ### Added
