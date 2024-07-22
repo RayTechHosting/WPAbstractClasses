@@ -106,7 +106,7 @@ abstract class AbstractMetaBox {
 	 * @return string
 	 */
 	public function add_type_attribute( $tag, $handle ) {
-		$scripts_to_defer = [ 'rtabstract-conditional', 'rtabstract-main', 'rtabstract-repeater' ];
+		$scripts_to_defer = [ 'rtabstract-conditional', 'rtabstract-repeater' ];
 		foreach ( $scripts_to_defer as $defer_script ) {
 			if ( $defer_script === $handle ) {
 				return str_replace( ' src', ' async type="module"" src', $tag );
@@ -125,7 +125,6 @@ abstract class AbstractMetaBox {
 		$config = new Configuration();
 		$path   = new Paths();
 		wp_enqueue_script( 'rtabstract-conditional', $path->getAssetsPath() . '/dist/js/conditional.js', ['jquery'], $config->data['theme_version'], true );
-		wp_enqueue_script( 'rtabstract-main', $path->getAssetsPath() . '/dist/js/main.js', [], $config->data['theme_version'], true );
 		wp_enqueue_style( 'rtabstract-style', $path->getAssetsPath() . '/dist/css/style.css', [], $config->data['theme_version'] );
 		wp_enqueue_script( 'rtabstract-media', $path->getAssetsPath() . '/dist/js/jquery.mediaupload.js', ['jquery'], $config->data['theme_version'], true );
 		wp_enqueue_script( 'rtabstract-repeater', $path->getAssetsPath() . '/dist/js/repeater.js', ['jquery'], $config->data['theme_version'], true );
