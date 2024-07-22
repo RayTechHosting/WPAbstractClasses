@@ -26,6 +26,7 @@ export default defineConfig({
 		manifest: true,
 		rollupOptions: {
 			input: {
+				main: resolve(__dirname, 'src/js/index.ts'),
 				conditional: resolve(__dirname, 'src/js/conditional.ts'),
 				repeater: resolve(__dirname, 'src/js/repeater.ts'),
 				'jquery.mediaupload': resolve(__dirname, 'src/js/jquery.mediaupload.js'),
